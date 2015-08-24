@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainProjectIntegrationP1"
+        xmlns:k="http://schemas.microsoft.com/kinect/2013"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+
+        <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+        <k:KinectRegion Name="kinectRegion">
+            
+            
+        </k:KinectRegion>
     </Grid>
 </Window>

@@ -14,7 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
+using Microsoft.Kinect.Toolkit.Interaction;
 using BluetoothZeuGroupeLib;
+using InTheHand.Net.Bluetooth;
 
 namespace MainProjectIntegrationP1
 {
@@ -26,13 +28,50 @@ namespace MainProjectIntegrationP1
 
         public KinectSensor sensor;
         public KinectSensorChooser sensorChooser;
-        public KinectSensorChooserUI sensorChooserUI;
         public BluetoothClientModule bluetooth;
 
         public MainWindow()
         {
             InitializeComponent();
             this.Content = new MainPage(this);
+            initBluetooth();
+            initKinectInteraction();
+        }
+
+        public void initKinectInteraction()
+        {
+            this.sensorChooser = new KinectSensorChooser();
+            this.sensorChooser.KinectChanged += SensorChooserOnKinectChanged;
+            this.sensorChooserUi.KinectSensorChooser = this.sensorChooser;
+            this.sensorChooser.Start();
+        }
+
+        private void SensorChooserOnKinectChanged(object sender, KinectChangedEventArgs e)
+        {
+            sensor = e.NewSensor;
+            sensor.Start();
+            sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+            sensor.SkeletonStream.Enable();
+            sensor.DepthStream.Range = DepthRange.Near;
+            sensor.SkeletonStream.EnableTrackingInNearRange = true;
+            sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+            kinectRegion.KinectSensor = sensor;
+        }
+
+        public void initBluetooth()
+        {
+            List<BluetoothRadio> radios = BluetoothClientModule.getAllBluetoothAdapters();
+            bluetooth = new BluetoothClientModule(radios.First().LocalAddress.ToString());
+            bluetooth.onConnectionEnded_Event += new BluetoothClientModule.onConnectionEnded(onBluetoothConnectionEnd);
+        }
+
+        /// <summary>
+        /// Callback lorsque la connexion est terminé ou interrompu
+        /// </summary>
+        /// <param name="cause">cause de la fermeture</param>
+        public void onBluetoothConnectionEnd(string cause)
+        {
+            System.Environment.Exit(0);
         }
     }
 }
