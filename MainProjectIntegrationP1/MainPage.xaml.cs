@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Kinect;
+using Microsoft.Kinect.Toolkit;
 
 namespace MainProjectIntegrationP1
 {
@@ -26,6 +28,48 @@ namespace MainProjectIntegrationP1
         {
             InitializeComponent();
             this.parent = parent;
+            this.parent.Width= SystemParameters.WorkArea.Width;
+            this.parent.Height= SystemParameters.WorkArea.Height;
+
+            //Variables
+            double buttonWidth, buttonHeight, spaceWidth, spaceHeight1, spaceHeight2;
+
+            //Set Variables
+            buttonHeight = this.parent.Height / 4;
+            buttonWidth = this.parent.Width / 4;
+            spaceWidth = this.parent.Width / 16;
+            spaceHeight1 = this.parent.Height / 4;
+            spaceHeight2 = this.parent.Height / 8;
+
+            //Set buttons width, heigth and position
+            btnPseudo.Width = buttonWidth;
+            btnPseudo.Height = buttonHeight;
+            Canvas.SetLeft(btnPseudo, spaceWidth);
+            Canvas.SetTop(btnPseudo, spaceHeight1);
+
+            btnRobot.Width = buttonWidth;
+            btnRobot.Height = buttonHeight;
+            Canvas.SetLeft(btnRobot, 2 * spaceWidth + buttonWidth);
+            Canvas.SetTop(btnRobot, spaceHeight1);
+
+            btnTraining.Width = buttonWidth;
+            btnTraining.Height = buttonHeight;
+            Canvas.SetLeft(btnTraining, 3 * spaceWidth + 2 * buttonWidth);
+            Canvas.SetTop(btnTraining, spaceHeight1);
+
+            btnHighscore.Width = buttonWidth;
+            btnHighscore.Height = buttonHeight;
+            Canvas.SetLeft(btnHighscore, spaceWidth);
+            Canvas.SetTop(btnHighscore, spaceHeight1 + buttonHeight + spaceHeight2);
+
+            btnExit.Width = buttonWidth;
+            btnExit.Height = buttonHeight;
+            Canvas.SetLeft(btnExit, 2 * spaceWidth + buttonWidth);
+            Canvas.SetTop(btnExit, spaceHeight1 + buttonHeight + spaceHeight2);
+
+            //Set Textbloc Menu position
+            Canvas.SetLeft(tbkMenu, this.parent.Width / 2 - tbkMenu.Width / 2);
+            Canvas.SetTop(tbkMenu, spaceHeight2 / 2);
         }
     }
 }
