@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BluetoothZeuGroupeLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,33 @@ namespace MainProjectIntegrationP1
     /// </summary>
     public partial class RobotRadarPage : Page
     {
-        public RobotRadarPage()
+
+        MainWindow parent;
+        List<String> robotsNames = new List<String>();
+        bool scanDone = false;
+
+        public RobotRadarPage(MainWindow parent)
         {
             InitializeComponent();
-            int test;
+            this.parent = parent;
+        }
 
+        private void initBluetoothRadar()
+        {
+            parent.bluetooth.onRobotDiscovered_Event += new BluetoothClientModule.onRobotDiscovered(onDiscover);
+            parent.bluetooth.onRobotsDiscoverDone_Event += new BluetoothClientModule.onRobotsDiscoverDone(onDiscoverDone);
+            parent.bluetooth.scanRobots();
+        }
+
+        private void onDiscoverDone(List<string> robotsNames)
+        {
+            scanDone = true;
+        }
+
+        private void onDiscover(string name)
+        {
+            robotsNames.Add(name);
+            
         }
     }
 }
