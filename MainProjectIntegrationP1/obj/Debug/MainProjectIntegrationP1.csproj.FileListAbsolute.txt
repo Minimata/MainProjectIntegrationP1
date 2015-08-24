@@ -1,3 +1,5 @@
 c:\users\diogo\documents\visual studio 2015\Projects\MainProjectIntegrationP1\MainProjectIntegrationP1\bin\Debug\MainProjectIntegrationP1.exe.config
 C:\Users\diogo\Documents\GitHub\MainProjectIntegrationP1\MainProjectIntegrationP1\bin\Debug\MainProjectIntegrationP1.exe.config
 D:\1ere-annee\Projet P1\MainProjectIntegrationP1\MainProjectIntegrationP1\bin\Debug\MainProjectIntegrationP1.exe.config
+D:\1ere-annee\Projet P1\MainProjectIntegrationP1\MainProjectIntegrationP1\obj\Debug\MainProjectIntegrationP1.exe
+D:\1ere-annee\Projet P1\MainProjectIntegrationP1\MainProjectIntegrationP1\obj\Debug\MainProjectIntegrationP1.pdb
