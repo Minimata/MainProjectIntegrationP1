@@ -21,11 +21,11 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Canvas.RenderTransform>
-                <k:KinectTileButton  Name="btnPseudo" Background="#FFC800" 
+                <k:KinectTileButton  Name="btnPseudo" Background="#6BBD46" 
         HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom">
                     <TextBlock x:Name="tbPseudo" FontSize="36" Foreground="White" Height="64" Text="Choix du pseudo" Width="275" />
                 </k:KinectTileButton>
-                <k:KinectTileButton Name="btnRobot" Background="#FF5A0FC8" 
+                <k:KinectTileButton Name="btnRobot" Background="#6BBD46" 
         HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom">
                     <TextBlock x:Name="tbRobot" FontSize="36" Foreground="White" Height="64" Text="Course simple" Width="247" />
                 </k:KinectTileButton>
@@ -33,11 +33,11 @@
         HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom">
                     <TextBlock x:Name="tbTraining" FontSize="36" Foreground="White" Height="64" Text="Entraînement" Width="217" RenderTransformOrigin="0.165,0.519" />
                 </k:KinectTileButton>
-                <k:KinectTileButton Background="#C80FA0" Name="btnHighscore"
+                <k:KinectTileButton Background="#6BBD46" Name="btnHighscore"
         HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom">
                     <TextBlock x:Name="tbHighscore" FontSize="36" Foreground="White" Height="64" Text="Tableau des scores" Width="304" />
                 </k:KinectTileButton>
-                <k:KinectTileButton  Background="#26A0DA" Name="btnExit"  
+                <k:KinectTileButton  Background="#6BBD46" Name="btnExit"  
         HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom">
                     <TextBlock x:Name="tbExit" FontSize="36" Foreground="White" Height="64" Text="Quitter" Width="126" />
                 </k:KinectTileButton>
