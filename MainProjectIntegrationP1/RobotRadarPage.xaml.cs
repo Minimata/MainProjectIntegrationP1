@@ -23,6 +23,7 @@ namespace MainProjectIntegrationP1
         public RobotRadarPage()
         {
             InitializeComponent();
+            int test;
         }
     }
 }
