@@ -33,7 +33,6 @@ namespace MainProjectIntegrationP1
         public MainWindow()
         {
             InitializeComponent();
-            this.Content = new MainPage(this);
             initBluetooth();
             initKinectInteraction();
         }

@@ -11,8 +11,10 @@
 
         <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
         <k:KinectRegion Name="kinectRegion">
-            
-            
+            <k:KinectTileButton  Name="btnPseudo" Background="#FFC800" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" >
+                <TextBlock x:Name="tbPseudo" FontSize="36" Foreground="White" Height="64" Text="Choix du pseudo" Width="275" />
+            </k:KinectTileButton>
+
         </k:KinectRegion>
     </Grid>
 </Window>
