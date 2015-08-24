@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MainProjectIntegrationP1"
         xmlns:k="http://schemas.microsoft.com/kinect/2013"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="720" Width="1280" WindowState="Maximized">
     <Grid>
 
         <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
