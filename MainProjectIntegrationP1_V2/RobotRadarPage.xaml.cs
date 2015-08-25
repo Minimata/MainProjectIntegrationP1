@@ -63,6 +63,7 @@ namespace MainProjectIntegrationP1
             pairingLbl.Visibility = Visibility.Visible;
             KinectTileButton b = sender as KinectTileButton;
             parent.bluetooth.pairToRobot(robotsNames.IndexOf(b.Label.ToString()));
+
         }
 
         public async Task<String> AsyncPairing()
