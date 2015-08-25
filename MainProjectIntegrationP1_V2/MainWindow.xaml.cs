@@ -35,6 +35,7 @@ namespace MainProjectIntegrationP1
             InitializeComponent();
             initBluetooth();
             initKinectInteraction();
+            this.Content = new RobotRadarPage(this);
         }
 
         public void initKinectInteraction()
