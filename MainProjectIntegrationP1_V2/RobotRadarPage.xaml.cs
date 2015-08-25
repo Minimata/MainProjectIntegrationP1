@@ -62,14 +62,9 @@ namespace MainProjectIntegrationP1
             scrollContent.Visibility = Visibility.Hidden;
             pairingLbl.Visibility = Visibility.Visible;
             KinectTileButton b = sender as KinectTileButton;
-            parent.bluetooth.pairToRobot(robotsNames.IndexOf(b.Label.ToString()));
+            parent.bluetooth.pairToRobot(robotsNames.IndexOf(b.ToString()));
 
         }
 
-        public async Task<String> AsyncPairing()
-        {
-            await Task.Delay(10000);
-            return "ok";
-        }
     }
 }
