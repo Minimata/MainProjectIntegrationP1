@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,7 @@ namespace MainProjectIntegrationP1
         bool scanDone = false;
         KinectSensorChooser sensorChooser;
         BitmapImage bi = new BitmapImage(new Uri("robot.png", UriKind.Relative));
+        String robotToPair;
         
         public RobotRadarPage(MainWindow parent)
         {
@@ -106,8 +108,6 @@ namespace MainProjectIntegrationP1
             KinectTileButton b = new KinectTileButton();
             b.Label = name;
             b.Click += btn_Click;
-
-            
             b.Background = new ImageBrush(bi);
             this.scrollContent.Children.Add(b);
             
@@ -115,11 +115,20 @@ namespace MainProjectIntegrationP1
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            scrollContent.Visibility = Visibility.Hidden;
-            pairingLbl.Visibility = Visibility.Visible;
+            //scrollContent.Visibility = Visibility.Hidden;
+            //pairingLbl.Visibility = Visibility.Visible;
             KinectTileButton b = sender as KinectTileButton;
-            parent.bluetooth.pairToRobot(robotsNames.IndexOf(b.ToString()));
-
+            robotToPair = b.Label.ToString();
+            statusLbl.Content = "Pairage en cours... veuillez patientez";
+            //Lance l'écoute de flux en async
+            Thread t = new Thread(new ThreadStart(pairing));
+            t.Name = "Pairing Thread";
+            t.Start();
+        }
+        private void pairing()
+        {
+            parent.bluetooth.pairToRobot(robotsNames.IndexOf(robotToPair));
+            Thread.CurrentThread.Abort();
         }
 
     }

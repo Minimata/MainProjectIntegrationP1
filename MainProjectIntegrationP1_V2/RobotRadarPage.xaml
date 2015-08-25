@@ -13,11 +13,12 @@
         <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
         <Label HorizontalAlignment="Center" FontSize="96" Foreground="#FF52318F" FontWeight="Bold" Margin="0,93,0,122">Connexion au robot</Label>
         <k:KinectRegion Name="kinectRegion">
-            <k:KinectScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Bottom" Margin="0,0,0,149">
+            <k:KinectScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Bottom" Margin="1,0,0,169" Height="322" RenderTransformOrigin="0.498,1.31">
+
                 <StackPanel Orientation="Horizontal" Name="scrollContent" />
             </k:KinectScrollViewer>
 
         </k:KinectRegion>
-        <Label Name="pairingLbl" Visibility="Hidden">Pairage en cours ....</Label>
+        <Label Name="statusLbl" Margin="-4,0,0,0" Background="#FF34A400" RenderTransformOrigin="0.5,0.5" Height="43" VerticalAlignment="Bottom" FontSize="21.333" Foreground="White" FontWeight="Bold" >Prêt au pairage</Label>
     </Grid>
 </Page>
