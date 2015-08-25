@@ -4,11 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MainProjectIntegrationP1"
+      xmlns:k="http://schemas.microsoft.com/kinect/2013"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="RobotRadarPage">
 
     <Grid>
-        
+        <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+        <Label>Connexion au robot</Label>
+        <k:KinectRegion Name="kinectRegion">
+            <k:KinectScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Bottom" Margin="0,0,0,149">
+                <StackPanel Orientation="Horizontal" Name="scrollContent" />
+            </k:KinectScrollViewer>
+            
+        </k:KinectRegion>
+        <Label Name="pairingLbl" Visibility="Hidden">Pairage en cours ....</Label>
     </Grid>
 </Page>

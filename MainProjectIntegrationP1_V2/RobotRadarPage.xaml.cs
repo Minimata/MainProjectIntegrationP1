@@ -1,4 +1,5 @@
 ﻿using BluetoothZeuGroupeLib;
+using Microsoft.Kinect.Toolkit.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace MainProjectIntegrationP1
         {
             InitializeComponent();
             this.parent = parent;
+            initBluetoothRadar();
         }
 
         private void initBluetoothRadar()
@@ -47,7 +49,26 @@ namespace MainProjectIntegrationP1
         private void onDiscover(string name)
         {
             robotsNames.Add(name);
+            System.Diagnostics.Debug.WriteLine("Robot " + name + " Découvert");
+            KinectTileButton b = new KinectTileButton();
+            b.Label = name;
+            b.Click += btn_Click;
+            this.scrollContent.Children.Add(b);
             
+        }
+
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            scrollContent.Visibility = Visibility.Hidden;
+            pairingLbl.Visibility = Visibility.Visible;
+            KinectTileButton b = sender as KinectTileButton;
+            parent.bluetooth.pairToRobot(robotsNames.IndexOf(b.Label.ToString()));
+        }
+
+        public async Task<String> AsyncPairing()
+        {
+            await Task.Delay(10000);
+            return "ok";
         }
     }
 }
