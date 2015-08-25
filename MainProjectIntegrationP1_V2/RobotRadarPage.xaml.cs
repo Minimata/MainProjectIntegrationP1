@@ -1,4 +1,6 @@
 ﻿using BluetoothZeuGroupeLib;
+using Microsoft.Kinect;
+using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Controls;
 using System;
 using System.Collections.Generic;
@@ -26,12 +28,63 @@ namespace MainProjectIntegrationP1
         MainWindow parent;
         List<String> robotsNames = new List<String>();
         bool scanDone = false;
-
+        KinectSensorChooser sensorChooser;
+        BitmapImage bi = new BitmapImage(new Uri("robot.png", UriKind.Relative));
+        
         public RobotRadarPage(MainWindow parent)
         {
             InitializeComponent();
             this.parent = parent;
+            this.sensorChooser = parent.sensorChooser;
+            this.sensorChooser.KinectChanged += SensorChooserOnKinectChanged2;
+            this.sensorChooserUi.KinectSensorChooser = sensorChooser;
+            this.sensorChooser.Start();
+            var regionSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
+            BindingOperations.SetBinding(this.kinectRegion, KinectRegion.KinectSensorProperty, regionSensorBinding);
             initBluetoothRadar();
+        }
+        private void SensorChooserOnKinectChanged2(object sender, KinectChangedEventArgs args)
+        {
+
+            bool error = false;
+            if (args.OldSensor != null)
+            {
+                try
+                {
+                    args.OldSensor.DepthStream.Range = DepthRange.Default;
+                    args.OldSensor.SkeletonStream.EnableTrackingInNearRange = false;
+                    args.OldSensor.DepthStream.Disable();
+                    args.OldSensor.SkeletonStream.Disable();
+                    args.OldSensor.ColorStream.Disable();
+                }
+                catch (InvalidOperationException inEX) { error = true; }
+            }
+
+            if (args.NewSensor != null)
+            {
+
+                try
+                {
+                    args.NewSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+                    //args.NewSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                    args.NewSensor.SkeletonStream.Enable();
+                    args.NewSensor.ColorStream.Enable();
+                    try
+                    {
+                        args.NewSensor.DepthStream.Range = DepthRange.Near;
+                        args.NewSensor.SkeletonStream.EnableTrackingInNearRange = true;
+                        args.NewSensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+                    }
+                    catch (InvalidOperationException inEX)
+                    {
+                        args.NewSensor.DepthStream.Range = DepthRange.Default;
+                        args.NewSensor.SkeletonStream.EnableTrackingInNearRange = false;
+                        error = true;
+                    }
+                }
+                catch (InvalidOperationException inEX) { error = true; }
+            }
+            if (!error) { kinectRegion.KinectSensor = args.NewSensor; }
         }
 
         private void initBluetoothRadar()
@@ -53,6 +106,9 @@ namespace MainProjectIntegrationP1
             KinectTileButton b = new KinectTileButton();
             b.Label = name;
             b.Click += btn_Click;
+
+            
+            b.Background = new ImageBrush(bi);
             this.scrollContent.Children.Add(b);
             
         }
