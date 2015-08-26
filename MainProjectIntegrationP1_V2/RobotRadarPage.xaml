@@ -30,6 +30,7 @@
 
                 <Label Grid.Row="0" HorizontalAlignment="Center" FontSize="96" Foreground="#FF52318F" FontWeight="Bold" Content="Connexion au robot"/>
                 <k:KinectTileButton Grid.Row="1" Visibility="Hidden" HorizontalAlignment="Center" x:Name="btnRefresh"  Label="Actualiser" Click="KinectTileButton_Click"/>
+                <Label Grid.Row="1" Name="lblScan" HorizontalAlignment="Center" FontSize="64" Foreground="#FF7380FF" FontWeight="Bold" Content="Balayage en cours..."/>
                 <k:KinectScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="-4,10,5,3" RenderTransformOrigin="0.498,1.31">
 
                     <StackPanel Orientation="Horizontal" x:Name="scrollContent" />

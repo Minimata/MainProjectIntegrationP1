@@ -100,6 +100,7 @@ namespace MainProjectIntegrationP1
         {
             scanDone = true;
             btnRefresh.Visibility = Visibility.Visible;
+            lblScan.Visibility = Visibility.Hidden;
         }
 
         private void onDiscover(string name)
@@ -137,6 +138,7 @@ namespace MainProjectIntegrationP1
             robotsNames.Clear();
             scrollContent.Children.Clear();
             btnRefresh.Visibility = Visibility.Hidden;
+            lblScan.Visibility = Visibility.Visible;
             parent.bluetooth.scanRobots();
 
         }
