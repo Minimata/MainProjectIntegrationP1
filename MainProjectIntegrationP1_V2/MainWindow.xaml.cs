@@ -34,7 +34,8 @@ namespace MainProjectIntegrationP1
         {
             InitializeComponent();
             initBluetooth();
-            initKinectInteraction();     
+            initKinectInteraction();
+            this.Content = new MainPage(this);
         }
 
         public void initKinectInteraction()
