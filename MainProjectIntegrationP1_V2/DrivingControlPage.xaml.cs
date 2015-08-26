@@ -106,7 +106,8 @@ namespace MainProjectIntegrationP1
 
            
             
-            TrameSender frame = new TrameSender("88"+ processor.ValueToPourcentage("assySpeed", wheelSpeedValue) + processor.ValueToPourcentage("assyRotation", wheelRotValue),parent.bluetooth);
+            TrameSender frame = new TrameSender("88"+ processor.ValueToPourcentage("assySpeed", assySpeedValue) + processor.ValueToPourcentage("assyRotation", assyRotValue),parent.bluetooth);
+            Console.WriteLine("WheelSpeed : " + processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue));
             //processor.ValueToPourcentage("assyRotation", assyRotValue);
             //processor.ValueToPourcentage("assySpeed", assySpeedValue);
 

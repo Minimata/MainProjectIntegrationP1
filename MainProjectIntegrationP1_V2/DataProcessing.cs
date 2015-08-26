@@ -17,7 +17,7 @@ namespace MainProjectIntegrationP1
         const double coeffWheelRotation = 1;
         //Wheel Speed
         const double maxWheelSpeed = 100;
-        const double coeffWheelSpeed = 100;
+        const double coeffWheelSpeed = 150;
         const double FINALcoeffWheelSpeed = 1;
         //Assymetric Rotation
         const double maxAssyRotation = 180;
@@ -101,8 +101,9 @@ namespace MainProjectIntegrationP1
         public double WheelSpeed()
         {
             double dist = Math.Sqrt(Math.Pow(DistX, 2) + Math.Pow(DistY, 2)); //Pythagore
-
             dist *= coeffWheelSpeed;
+            dist = NeutralBand(dist, 50);
+
             if (dist > maxWheelSpeed) dist = maxWheelSpeed;
             dist *= FINALcoeffWheelSpeed;
 

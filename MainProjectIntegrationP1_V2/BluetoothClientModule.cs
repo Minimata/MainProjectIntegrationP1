@@ -173,7 +173,7 @@ namespace BluetoothZeuGroupeLib
         /// </summary>
         public void sendToPairedRobot(String msg)
         {
-            Console.WriteLine(msg);
+            
             if (localClient != null && localClient.Connected && !stop)
             {
                    Stream stream = localClient.GetStream();

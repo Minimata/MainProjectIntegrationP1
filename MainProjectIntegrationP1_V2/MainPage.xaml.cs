@@ -96,8 +96,8 @@ namespace MainProjectIntegrationP1
 
         private void btnHighscore_Click(object sender, RoutedEventArgs e)
         {
-            Scores highScore = new Scores(this.parent);
-            parent.Content = highScore;
+            //Scores highScore = new Scores(this.parent);
+            //parent.Content = highScore;
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
