@@ -69,9 +69,11 @@ namespace MainProjectIntegrationP1
             btnY.Width = buttonWidth;
             btnZ.Width = buttonWidth;
             btnStart.Width = 2 * (buttonWidth);
+            btnReturn.Width = 2 * (buttonWidth);
 
             //Initialize buttons height
             btnStart.Height = buttonHeight;
+            btnReturn.Height = buttonHeight;
             btn0.Height = buttonHeight;
             btn1.Height = buttonHeight;
             btn2.Height = buttonHeight;
@@ -114,7 +116,8 @@ namespace MainProjectIntegrationP1
             double space = spaceWidth / 14;
             Canvas.SetLeft(lblName, this.parent.Width / 2 - lblName.Width / 2);
             Canvas.SetLeft(lblPseudo, (this.parent.Width / 2)-(lblPseudo.Width/2));
-            Canvas.SetLeft(btnStart, (this.parent.Width / 2) - buttonWidth);
+            Canvas.SetLeft(btnStart, (this.parent.Width / 2) - (2*buttonWidth));
+            Canvas.SetLeft(btnReturn, (this.parent.Width / 2));
             Canvas.SetLeft(btnA, space);
             Canvas.SetLeft(btnB, space);
             Canvas.SetLeft(btnC, space);
@@ -158,6 +161,7 @@ namespace MainProjectIntegrationP1
             Canvas.SetTop(lblName, this.parent.Height / 2);
             Canvas.SetTop(lblPseudo, this.parent.Height / 4);
             Canvas.SetTop(btnStart, 5 * this.parent.Height / 8);
+            Canvas.SetTop(btnReturn, 5 * this.parent.Height / 8);
             Canvas.SetTop(btnA, 7 * space2 + 6 * buttonHeight);
             Canvas.SetTop(btnB, 6 * space2 + 5 * buttonHeight);
             Canvas.SetTop(btnC, 5 * space2 + 4 * buttonHeight);
@@ -206,6 +210,12 @@ namespace MainProjectIntegrationP1
         {
             RobotRadarPage Robot = new RobotRadarPage(this.parent);
             parent.Content = Robot;
+        }
+
+        private void btnReturn_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage Menu = new MainPage(this.parent);
+            parent.Content = Menu;
         }
     }
 }
