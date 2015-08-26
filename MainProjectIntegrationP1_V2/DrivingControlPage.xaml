@@ -4,11 +4,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MainProjectIntegrationP1"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="DrivingControlPage">
+      mc:Ignorable="d"
+      Title="DrivingControlPage" Height="490" Width="650">
 
     <Grid>
-        
+        <Label x:Name="labelLeftX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelRightX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,10,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelLeftY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelRightY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,46,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelWheelSpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,113,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelWheelRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,113,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,149,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,149,0,0" VerticalAlignment="Top" Width="67"/>
+        <Image x:Name="ImageVideo" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100"/>
+
     </Grid>
 </Page>

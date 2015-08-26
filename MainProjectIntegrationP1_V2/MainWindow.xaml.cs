@@ -34,8 +34,7 @@ namespace MainProjectIntegrationP1
         {
             InitializeComponent();
             initBluetooth();
-            initKinectInteraction();
-            this.Content = new RobotRadarPage(this);
+            initKinectInteraction();     
         }
 
         public void initKinectInteraction()
@@ -56,6 +55,15 @@ namespace MainProjectIntegrationP1
             sensor.SkeletonStream.EnableTrackingInNearRange = true;
             sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
             kinectRegion.KinectSensor = sensor;
+
+            //Lance la page principale...
+            startProgram();
+            
+        }
+
+        private void startProgram()
+        {
+            this.Content = new DrivingControlPage(this);
         }
 
         public void initBluetooth()
