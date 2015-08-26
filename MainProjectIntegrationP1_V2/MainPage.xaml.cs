@@ -30,6 +30,7 @@ namespace MainProjectIntegrationP1
             this.parent = parent;
             this.parent.Width= SystemParameters.WorkArea.Width;
             this.parent.Height= SystemParameters.WorkArea.Height;
+            
 
             //Variables
             double buttonWidth, buttonHeight, spaceWidth, spaceHeight1, spaceHeight2;
@@ -70,6 +71,35 @@ namespace MainProjectIntegrationP1
             //Set Textbloc Menu position
             Canvas.SetLeft(tbkMenu, this.parent.Width / 2 - tbkMenu.Width / 2);
             Canvas.SetTop(tbkMenu, spaceHeight2 / 2);
+        }
+
+        private void btnPseudo_Click(object sender, RoutedEventArgs e)
+        {
+            UserNamePage pseudo = new UserNamePage(this.parent);
+            parent.Content = pseudo;
+        }
+
+        private void btnRobot_Click(object sender, RoutedEventArgs e)
+        {
+            RobotRadarPage Robot = new RobotRadarPage(this.parent);
+            parent.Content = Robot;
+        }
+
+        private void btnTraining_Click(object sender, RoutedEventArgs e)
+        {
+            SimulatorPage training = new SimulatorPage(this.parent);
+            parent.Content = training;
+        }
+
+        private void btnHighscore_Click(object sender, RoutedEventArgs e)
+        {
+            Scores highScore = new Scores(this.parent);
+            parent.Content = highScore;
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            parent.Close();
         }
     }
 }
