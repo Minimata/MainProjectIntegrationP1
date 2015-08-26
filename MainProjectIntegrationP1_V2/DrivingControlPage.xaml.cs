@@ -16,6 +16,7 @@ using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Controls;
 using Microsoft.Kinect.Toolkit.Interaction;
+using BluetoothRemoteControl;
 
 namespace MainProjectIntegrationP1
 {
@@ -32,16 +33,30 @@ namespace MainProjectIntegrationP1
         RobotSimulator robot;
         MainWindow parent;
 
+        DataSmoother assyRotSmoother;
+        DataSmoother assySpeedSmoother;
+        DataSmoother wheelSpeedSmoother;
+        DataSmoother wheelRotSmoother;
+
         public DrivingControlPage(MainWindow parent)
         {
             InitializeComponent();
             this.parent = parent;
+
+            if (!parent.bluetooth.isConnected)
+                parent.Content = new RobotRadarPage(parent);
+
             Init();
             Subscribe();
         }
 
         public void Init()
         {
+            assyRotSmoother = new DataSmoother();
+            assySpeedSmoother = new DataSmoother();
+            wheelSpeedSmoother = new DataSmoother();
+            wheelRotSmoother = new DataSmoother();
+
             kinect = new VisualDevice();
             kinect.Load(parent.sensor);
             robot = new RobotSimulator();
@@ -71,19 +86,29 @@ namespace MainProjectIntegrationP1
             labelRightX.Content = "Right Hand Position in X-axis :" + Math.Round(data[2], 2).ToString();
             labelRightY.Content = "Right Hand Position in Y-axis :" + Math.Round(data[3], 2).ToString();
 
-            DataSmoother assyRotSmoother = new DataSmoother(bruteAssyRotation);
-            DataSmoother assySpeedSmoother = new DataSmoother(bruteAssySpeed);
-            DataSmoother wheelSpeedSmoother = new DataSmoother(bruteWheelSpeed);
-            DataSmoother wheelRotSmoother = new DataSmoother(bruteWheelRotation);
+            assyRotSmoother.updateValue(bruteAssyRotation);
+            assySpeedSmoother.updateValue(bruteAssySpeed);
+            wheelSpeedSmoother.updateValue(bruteWheelSpeed);
+            wheelRotSmoother.updateValue(bruteWheelRotation);
 
-            labelWheelSpeed.Content = "Wheel Speed Value : " + Math.Round(wheelSpeedSmoother.UpdateExponential());
-            labelWheelRotation.Content = "Wheel Rotation Value : " + Math.Round(wheelRotSmoother.UpdateExponential());
-            labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedSmoother.UpdateExponential());
-            labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotSmoother.UpdateExponential());
+            double wheelRotValue = wheelRotSmoother.UpdateExponential();
+            double wheelSpeedValue = wheelSpeedSmoother.UpdateExponential();
+            double assySpeedValue = assySpeedSmoother.UpdateExponential();
+            double assyRotValue = assyRotSmoother.UpdateExponential();
 
+            labelWheelSpeed.Content = "Wheel Speed Value : " + Math.Round(wheelSpeedValue);
+            labelWheelRotation.Content = "Wheel Rotation Value : " + Math.Round(wheelRotValue);
+            labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
+            labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
 
-            //BLUETOOTH
+            //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
+            //Exemples d'utilisation de la méthode de transformation des valeurs pour le format de la trame.
 
+           
+            
+            TrameSender frame = new TrameSender("88"+ processor.ValueToPourcentage("assySpeed", wheelSpeedValue) + processor.ValueToPourcentage("assyRotation", wheelRotValue),parent.bluetooth);
+            //processor.ValueToPourcentage("assyRotation", assyRotValue);
+            //processor.ValueToPourcentage("assySpeed", assySpeedValue);
 
             //robot.directionAngle = bruteAssyRotation;
             //robot.speed = bruteAssySpeed;

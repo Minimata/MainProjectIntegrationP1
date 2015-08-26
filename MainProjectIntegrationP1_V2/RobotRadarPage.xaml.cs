@@ -122,14 +122,17 @@ namespace MainProjectIntegrationP1
             KinectTileButton b = sender as KinectTileButton;
             robotToPair = b.Label.ToString();
             statusLbl.Content = "Pairage en cours... veuillez patientez";
-            //Lance l'écoute de flux en async
-            Thread t = new Thread(new ThreadStart(pairing));
-            t.Name = "Pairing Thread";
-            t.Start();
+            parent.bluetooth.pairToRobot(robotsNames.IndexOf(robotToPair));
+            parent.Content = new DrivingControlPage(parent);
+            ////Lance l'écoute de flux en async
+            //Thread t = new Thread(new ThreadStart(pairing));
+            //t.Name = "Pairing Thread";
+            //t.Start();
         }
         private void pairing()
         {
             parent.bluetooth.pairToRobot(robotsNames.IndexOf(robotToPair));
+            this.Content = new DrivingControlPage(parent);
             Thread.CurrentThread.Abort();
         }
 

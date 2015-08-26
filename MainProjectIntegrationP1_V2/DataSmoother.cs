@@ -12,14 +12,17 @@ namespace MainProjectIntegrationP1
 
         //constants for the methods
         //Exponential
-        const double alpha = 0.5;
+        const double alpha = 0.9;
         double expAncientValue;
 
-        public DataSmoother(double d)
+        public DataSmoother()
+        {
+            expAncientValue = 0;
+        }
+
+        public void updateValue(double d)
         {
             dataToSmooth = d;
-
-            expAncientValue = 0;
         }
 
         public double UpdateExponential()

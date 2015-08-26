@@ -20,7 +20,7 @@ namespace MainProjectIntegrationP1
     /// </summary>
     public partial class SimulatorPage : Page
     {
-        public SimulatorPage()
+        public SimulatorPage(MainWindow parent)
         {
             InitializeComponent();
         }

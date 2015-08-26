@@ -17,7 +17,7 @@ namespace MainProjectIntegrationP1
         const double coeffWheelRotation = 1;
         //Wheel Speed
         const double maxWheelSpeed = 100;
-        const double coeffWheelSpeed = 300;
+        const double coeffWheelSpeed = 100;
         const double FINALcoeffWheelSpeed = 1;
         //Assymetric Rotation
         const double maxAssyRotation = 180;
@@ -71,7 +71,9 @@ namespace MainProjectIntegrationP1
                     tmp = 0;
                     break;
             }
-
+            tmp = (tmp + 100) / 2;
+            if (tmp > 99) tmp = 99;
+            else if (tmp < 0) tmp = 0;
             retour = Convert.ToInt16(tmp);
             return retour;
         }
