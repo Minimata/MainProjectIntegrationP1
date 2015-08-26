@@ -99,6 +99,7 @@ namespace MainProjectIntegrationP1
         private void onDiscoverDone(List<string> robotsNames)
         {
             scanDone = true;
+            btnRefresh.Visibility = Visibility.Visible;
         }
 
         private void onDiscover(string name)
@@ -131,5 +132,13 @@ namespace MainProjectIntegrationP1
             Thread.CurrentThread.Abort();
         }
 
+        private void KinectTileButton_Click(object sender, RoutedEventArgs e)
+        {
+            robotsNames.Clear();
+            scrollContent.Children.Clear();
+            btnRefresh.Visibility = Visibility.Hidden;
+            parent.bluetooth.scanRobots();
+
+        }
     }
 }

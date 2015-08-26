@@ -42,9 +42,9 @@ namespace MainProjectIntegrationP1
 
         public void Init()
         {
-                kinect = new VisualDevice();
-                kinect.Load(parent.sensor);
-                robot = new RobotSimulator();
+            kinect = new VisualDevice();
+            kinect.Load(parent.sensor);
+            robot = new RobotSimulator();
         }
 
         public void Subscribe()
@@ -81,9 +81,13 @@ namespace MainProjectIntegrationP1
             labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedSmoother.UpdateExponential());
             labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotSmoother.UpdateExponential());
 
-            robot.directionAngle = bruteAssyRotation;
-            robot.speed = bruteAssySpeed;
-            robot.update();
+
+            //BLUETOOTH
+
+
+            //robot.directionAngle = bruteAssyRotation;
+            //robot.speed = bruteAssySpeed;
+            //robot.update();
         }
 
         private void onColorFrameReadyEvent(object sender, EventArgs e, ImageSource bSource)

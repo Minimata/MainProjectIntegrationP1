@@ -51,11 +51,11 @@ namespace MainProjectIntegrationP1
             if (null != this.sensor)
             {
                 this.sensor.SkeletonStream.Enable();
-                //this.sensor.SkeletonStream.EnableTrackingInNearRange = true;
+                this.sensor.SkeletonStream.EnableTrackingInNearRange = true;
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
 
-                //this.sensor.DepthStream.Enable();
-                //this.sensor.DepthStream.Range = DepthRange.Near;
+                this.sensor.DepthStream.Enable();
+                this.sensor.DepthStream.Range = DepthRange.Near;
 
                 this.sensor.ColorStream.Enable();
                 this.sensor.ColorFrameReady += this.VideoFrameReady;

@@ -82,6 +82,9 @@ namespace BluetoothZeuGroupeLib
             {
                 Console.WriteLine(e.ToString());
             }
+
+            localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
+            localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
         }
 
         /// <summary>
@@ -90,9 +93,9 @@ namespace BluetoothZeuGroupeLib
         public void scanRobots()
         {
             isSlave = false;
+            robots.Clear();
             localComponent.DiscoverDevicesAsync(255, true, true, true, true, null);
-            localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
-            localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+            
         }
 
         private void component_DiscoverDevicesProgress(object sender, DiscoverDevicesEventArgs e)

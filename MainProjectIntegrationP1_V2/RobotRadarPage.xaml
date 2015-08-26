@@ -11,14 +11,35 @@
 
     <Grid>
         <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
-        <Label HorizontalAlignment="Center" FontSize="96" Foreground="#FF52318F" FontWeight="Bold" Margin="0,93,0,122">Connexion au robot</Label>
-        <k:KinectRegion Name="kinectRegion">
-            <k:KinectScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Bottom" Margin="1,0,0,169" Height="322" RenderTransformOrigin="0.498,1.31">
 
-                <StackPanel Orientation="Horizontal" Name="scrollContent" />
-            </k:KinectScrollViewer>
+        <k:KinectRegion Name="kinectRegion">
+
+            <Grid>
+
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="30*" />
+                    <RowDefinition Height="5*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" HorizontalAlignment="Center" FontSize="96" Foreground="#FF52318F" FontWeight="Bold" Content="Connexion au robot"/>
+                <k:KinectTileButton Grid.Row="1" Visibility="Hidden" HorizontalAlignment="Center" x:Name="btnRefresh"  Label="Actualiser" Click="KinectTileButton_Click"/>
+                <k:KinectScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="-4,10,5,3" RenderTransformOrigin="0.498,1.31">
+
+                    <StackPanel Orientation="Horizontal" x:Name="scrollContent" />
+                </k:KinectScrollViewer>
+                <Label Grid.Row="3" Name="statusLbl" Margin="-4,0,0,0" Background="#FF34A400" RenderTransformOrigin="0.5,0.5" Height="43" VerticalAlignment="Bottom" FontSize="21.333" Foreground="White" FontWeight="Bold" >Prêt au pairage</Label>
+            </Grid>
+
+
 
         </k:KinectRegion>
-        <Label Name="statusLbl" Margin="-4,0,0,0" Background="#FF34A400" RenderTransformOrigin="0.5,0.5" Height="43" VerticalAlignment="Bottom" FontSize="21.333" Foreground="White" FontWeight="Bold" >Prêt au pairage</Label>
+
     </Grid>
 </Page>

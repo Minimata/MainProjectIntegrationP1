@@ -8,14 +8,14 @@
       Title="DrivingControlPage" Height="490" Width="650">
 
     <Grid>
-        <Label x:Name="labelLeftX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelRightX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,10,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelLeftY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelRightY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,46,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelWheelSpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,113,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelWheelRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,113,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,149,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="100,149,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="labelLeftX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="310"/>
+        <Label x:Name="labelRightX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="325,15,0,0" VerticalAlignment="Top" Width="315"/>
+        <Label x:Name="labelLeftY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" VerticalAlignment="Top" Width="310"/>
+        <Label x:Name="labelRightY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="325,46,0,0" VerticalAlignment="Top" Width="315"/>
+        <Label x:Name="labelWheelSpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,113,0,0" VerticalAlignment="Top" Width="310"/>
+        <Label x:Name="labelWheelRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="325,113,0,0" VerticalAlignment="Top" Width="315"/>
+        <Label x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,149,0,0" VerticalAlignment="Top" Width="310"/>
+        <Label x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="325,149,0,0" VerticalAlignment="Top" Width="315"/>
         <Image x:Name="ImageVideo" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100"/>
 
     </Grid>
