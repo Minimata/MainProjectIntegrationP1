@@ -28,9 +28,12 @@ namespace MainProjectIntegrationP1
         {
             InitializeComponent();
             this.parent = parent;
-            this.parent.Width= SystemParameters.WorkArea.Width;
-            this.parent.Height= SystemParameters.WorkArea.Height;
+            //this.parent.Width = SystemParameters.WorkArea.Width;
+            //this.parent.Height = SystemParameters.WorkArea.Height;
+            this.parent.Width = SystemParameters.FullPrimaryScreenWidth;
+            this.parent.Height = SystemParameters.FullPrimaryScreenHeight;
             
+
 
             //Variables
             double buttonWidth, buttonHeight, spaceWidth, spaceHeight1, spaceHeight2;

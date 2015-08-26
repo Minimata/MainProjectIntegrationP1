@@ -30,7 +30,6 @@ namespace MainProjectIntegrationP1
             //Variables
             double buttonWidth = this.parent.Width / 14;
             double buttonHeight = this.parent.Height / 8;
-            int pute;
 
             //Initializ buttons width
             btn0.Width = buttonWidth;
@@ -114,7 +113,7 @@ namespace MainProjectIntegrationP1
             double spaceWidth = this.parent.Width / 14;
             double space = spaceWidth / 14;
             Canvas.SetLeft(lblName, this.parent.Width / 2 - lblName.Width / 2);
-            Canvas.SetLeft(lblPseudo, this.parent.Width / 2 - lblPseudo.Width / 2);
+            Canvas.SetLeft(lblPseudo, (this.parent.Width / 2)-(lblPseudo.Width/2));
             Canvas.SetLeft(btnStart, (this.parent.Width / 2) - buttonWidth);
             Canvas.SetLeft(btnA, space);
             Canvas.SetLeft(btnB, space);

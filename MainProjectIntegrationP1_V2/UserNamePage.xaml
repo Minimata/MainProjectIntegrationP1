@@ -50,7 +50,7 @@
                 <k:KinectTileButton x:Name="btn7" Canvas.Left="750" Canvas.Bottom="-32"  Click="ButtonOnClick" Content="7" Background="#52318F" Foreground="White"/>
                 <k:KinectTileButton x:Name="btn8" Canvas.Left="845" Canvas.Bottom="-32"  Click="ButtonOnClick" Content="8" Background="#52318F" Foreground="White"/>
                 <k:KinectTileButton x:Name="btn9" Canvas.Left="940" Canvas.Bottom="-32"  Click="ButtonOnClick" Content="9" Background="#52318F" Foreground="White"/>
-                <Label x:Name="lblPseudo" Content="Choix du pseudo Putain" Canvas.Left="633" Canvas.Top="301" FontSize="50" />
+                <Label x:Name="lblPseudo" Content="Choix du pseudo" Canvas.Left="633" Canvas.Top="301" FontSize="70" Width="537" />
             </Canvas>
         </Grid>
     </Grid>
