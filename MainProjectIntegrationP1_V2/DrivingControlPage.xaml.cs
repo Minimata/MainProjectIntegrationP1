@@ -17,7 +17,6 @@ using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Controls;
 using Microsoft.Kinect.Toolkit.Interaction;
 using BluetoothRemoteControl;
-using System.Windows.Threading;
 
 namespace MainProjectIntegrationP1
 {
@@ -38,11 +37,6 @@ namespace MainProjectIntegrationP1
         DataSmoother assySpeedSmoother;
         DataSmoother wheelSpeedSmoother;
         DataSmoother wheelRotSmoother;
-        DispatcherTimer dispatcherTimer = null;
-
-
-        int speed;
-        int rotation;
 
         public DrivingControlPage(MainWindow parent)
         {
@@ -52,27 +46,8 @@ namespace MainProjectIntegrationP1
             if (!parent.bluetooth.isConnected)
                 parent.Content = new RobotRadarPage(parent);
 
-            //TrameSender frame = new TrameSender("770000", parent.bluetooth);
-            
             Init();
             Subscribe();
-            parent.bluetooth.sendToPairedRobot("77");
-            parent.bluetooth.Listen();
-            dispatcherTimer = new DispatcherTimer();
-            armTimer();
-
-        }
-
-        public void armTimer()
-        {
-            dispatcherTimer.Tick += new EventHandler(TimerTick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 250);
-            dispatcherTimer.Start();
-        }
-
-        private void TimerTick(object sender, EventArgs e)
-        {
-            parent.bluetooth.sendToPairedRobot("88"+speed+""+rotation);
         }
 
         public void Init()
@@ -91,12 +66,6 @@ namespace MainProjectIntegrationP1
         {
             kinect.onColorFrameReady += new VisualDevice.VideoFrameReadyEventHandler(onColorFrameReadyEvent);
             kinect.onSkeletonFrameReady += new VisualDevice.SkeletonFrameReadyEventHandler(onSkeletonEvent);
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-           
-            Console.WriteLine("ok");
         }
 
         //Methods where the magic happens.
@@ -132,16 +101,13 @@ namespace MainProjectIntegrationP1
             labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
             labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
 
-            speed = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
-            rotation = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
             //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
             //Exemples d'utilisation de la méthode de transformation des valeurs pour le format de la trame.
 
            
             
-            //TrameSender frame = new TrameSender("885050",parent.bluetooth);
-            //parent.bluetooth.sendToPairedRobot("880000");
-
+            TrameSender frame = new TrameSender("88"+ processor.ValueToPourcentage("assySpeed", assySpeedValue) + processor.ValueToPourcentage("assyRotation", assyRotValue),parent.bluetooth);
+            Console.WriteLine("WheelSpeed : " + processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue));
             //processor.ValueToPourcentage("assyRotation", assyRotValue);
             //processor.ValueToPourcentage("assySpeed", assySpeedValue);
 

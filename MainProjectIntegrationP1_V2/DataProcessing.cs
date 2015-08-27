@@ -14,10 +14,10 @@ namespace MainProjectIntegrationP1
 
         //Wheel Rotation
         const double maxWheelAngle = 90;
-        const double coeffWheelRotation = 1.6;
+        const double coeffWheelRotation = 1;
         //Wheel Speed
         const double maxWheelSpeed = 100;
-        const double coeffWheelSpeed = 200;
+        const double coeffWheelSpeed = 150;
         const double FINALcoeffWheelSpeed = 1;
         //Assymetric Rotation
         const double maxAssyRotation = 180;

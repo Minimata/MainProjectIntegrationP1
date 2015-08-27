@@ -17,7 +17,6 @@
         <Label x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,149,0,0" VerticalAlignment="Top" Width="310"/>
         <Label x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="325,149,0,0" VerticalAlignment="Top" Width="315"/>
         <Image x:Name="ImageVideo" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="357,227,0,0" VerticalAlignment="Top" Width="193" Height="192" Click="button_Click"/>
 
     </Grid>
 </Page>
