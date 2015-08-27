@@ -8,8 +8,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="UserNamePage">
-
     <Grid>
+    <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+    <k:KinectRegion Name="kinectRegion">
         <Grid Margin="0,0,0.333,46.667">
             <Canvas Background="Transparent">
                 <k:KinectTileButton x:Name="btnStart" Canvas.Left="300" Canvas.Bottom="300"   Click="btnOK_Click" Content="Démarrer" Background="#52318F" Foreground="White"/>
@@ -54,5 +55,6 @@
                 <Label x:Name="lblPseudo" Content="Choix du pseudo" Canvas.Left="633" Canvas.Top="301" FontSize="70" Width="537" />
             </Canvas>
         </Grid>
+    </k:KinectRegion>
     </Grid>
 </Page>

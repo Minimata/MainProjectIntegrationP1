@@ -5,10 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MainProjectIntegrationP1"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="300" d:DesignWidth="1280"
       Title="SimulatorPage">
 
-    <Grid>
-        
-    </Grid>
+    <StackPanel Margin="10">
+
+        <Canvas x:Name="buttonCanvas" HorizontalAlignment="Right" VerticalAlignment="Top" Width="320" Height="480">
+            <Button x:Name="btnReturn" Content="Retour" Background="#52318F" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Canvas>
+        <Image  x:Name="ImageVideo" HorizontalAlignment="Stretch" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100" />
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="720" VerticalAlignment="Top" Width="1280"/>
+
+    </StackPanel>
 </Page>

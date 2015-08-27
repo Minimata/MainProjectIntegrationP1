@@ -35,7 +35,6 @@ namespace MainProjectIntegrationP1
             InitializeComponent();
             initBluetooth();
             initKinectInteraction();
-            this.Content = new MainPage(this);
         }
 
         public void initKinectInteraction()
@@ -64,7 +63,7 @@ namespace MainProjectIntegrationP1
 
         private void startProgram()
         {
-            this.Content = new DrivingControlPage(this);
+            this.Content = new MainPage(this);
         }
 
         public void initBluetooth()

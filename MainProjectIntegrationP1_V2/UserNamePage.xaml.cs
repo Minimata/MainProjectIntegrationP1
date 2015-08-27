@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Kinect;
+using Microsoft.Kinect.Toolkit;
+using Microsoft.Kinect.Toolkit.Controls;
+
 
 namespace MainProjectIntegrationP1
 {
@@ -21,6 +25,7 @@ namespace MainProjectIntegrationP1
     public partial class UserNamePage : Page
     {
         MainWindow parent;
+        KinectSensorChooser sensorChooser;
 
         public UserNamePage(MainWindow parent)
         {
@@ -198,6 +203,14 @@ namespace MainProjectIntegrationP1
             Canvas.SetTop(btn2, 7 * space2 + 6 * buttonHeight);
             Canvas.SetTop(btn1, 7 * space2 + 6 * buttonHeight);
             Canvas.SetTop(btn0, 7 * space2 + 6 * buttonHeight);
+
+            //init kinect
+            this.sensorChooser = parent.sensorChooser;
+            this.sensorChooser.KinectChanged += SensorChooserOnKinectChanged2;
+            this.sensorChooserUi.KinectSensorChooser = sensorChooser;
+            this.sensorChooser.Start();
+            var regionSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
+            BindingOperations.SetBinding(this.kinectRegion, KinectRegion.KinectSensorProperty, regionSensorBinding);
         }
 
         private void ButtonOnClick(object sender, RoutedEventArgs e)
@@ -210,6 +223,49 @@ namespace MainProjectIntegrationP1
         {
             RobotRadarPage Robot = new RobotRadarPage(this.parent);
             parent.Content = Robot;
+        }
+
+        private void SensorChooserOnKinectChanged2(object sender, KinectChangedEventArgs args)
+        {
+            bool error = false;
+            if (args.OldSensor != null)
+            {
+                try
+                {
+                    args.OldSensor.DepthStream.Range = DepthRange.Default;
+                    args.OldSensor.SkeletonStream.EnableTrackingInNearRange = false;
+                    args.OldSensor.DepthStream.Disable();
+                    args.OldSensor.SkeletonStream.Disable();
+                    args.OldSensor.ColorStream.Disable();
+                }
+                catch (InvalidOperationException inEX) { error = true; }
+            }
+
+            if (args.NewSensor != null)
+            {
+
+                try
+                {
+                    args.NewSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+                    //args.NewSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                    args.NewSensor.SkeletonStream.Enable();
+                    args.NewSensor.ColorStream.Enable();
+                    try
+                    {
+                        args.NewSensor.DepthStream.Range = DepthRange.Near;
+                        args.NewSensor.SkeletonStream.EnableTrackingInNearRange = true;
+                        args.NewSensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+                    }
+                    catch (InvalidOperationException inEX)
+                    {
+                        args.NewSensor.DepthStream.Range = DepthRange.Default;
+                        args.NewSensor.SkeletonStream.EnableTrackingInNearRange = false;
+                        error = true;
+                    }
+                }
+                catch (InvalidOperationException inEX) { error = true; }
+            }
+            if (!error) { kinectRegion.KinectSensor = args.NewSensor; }
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)

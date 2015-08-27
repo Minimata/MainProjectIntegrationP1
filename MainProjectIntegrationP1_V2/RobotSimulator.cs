@@ -11,8 +11,8 @@ namespace MainProjectIntegrationP1
 {
     class RobotSimulator
     {
-        double x { get; set; }
-        double y { get; set; }
+        public double x { get; set; }
+        public double y { get; set; }
 
         Rectangle shape;
 
