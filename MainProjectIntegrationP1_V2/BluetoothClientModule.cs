@@ -85,6 +85,7 @@ namespace BluetoothZeuGroupeLib
 
             localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
             localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+            guid = BluetoothService.SerialPort.ToString();
         }
 
         /// <summary>
@@ -135,12 +136,13 @@ namespace BluetoothZeuGroupeLib
         {
             try
             {
-                isPaired = BluetoothSecurity.PairRequest(robots.ElementAt(index).DeviceAddress, "4843758");
+                isPaired = BluetoothSecurity.PairRequest(robots.ElementAt(index).DeviceAddress, "1234");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
+            
 
             if (isPaired)
             {
@@ -149,10 +151,10 @@ namespace BluetoothZeuGroupeLib
                 // check if device is paired
                 if (pairedRobot.Authenticated)
                 {
-                    localClient.SetPin("4843758");
+                    localClient.SetPin("1234");
 
                     if (!localClient.Connected)
-                        localClient.Connect(pairedRobot.DeviceAddress, new Guid(guid));
+                        localClient.Connect(pairedRobot.DeviceAddress, BluetoothService.SerialPort);
 
                     if (localClient.Connected)
                     {
@@ -163,7 +165,7 @@ namespace BluetoothZeuGroupeLib
             }
             else
             {
-                Console.WriteLine("NOT Paire!");
+                Console.WriteLine("NOT Paired!");
             }
         }
 
@@ -173,6 +175,8 @@ namespace BluetoothZeuGroupeLib
         /// </summary>
         public void sendToPairedRobot(String msg)
         {
+
+            Console.WriteLine("SEND " + msg);
             
             if (localClient != null && localClient.Connected && !stop)
             {
@@ -208,7 +212,7 @@ namespace BluetoothZeuGroupeLib
         {
             if(isSlave)
             {
-                (Bluetoothlistener = new BluetoothListener(new Guid(guid))).Start();
+                (Bluetoothlistener = new BluetoothListener(BluetoothService.SerialPort)).Start();
                 localClient = Bluetoothlistener.AcceptBluetoothClient();
                 isPaired = true;
             }
@@ -232,6 +236,7 @@ namespace BluetoothZeuGroupeLib
                         // event message
                         if (onReceiveMessage != null)
                         {
+                            Console.WriteLine("RECEIVED " + data);
                             onReceiveMessage.Invoke(System.Text.UTF8Encoding.ASCII.GetString(data));
                         }
 
