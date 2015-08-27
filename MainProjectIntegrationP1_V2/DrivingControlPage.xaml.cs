@@ -18,6 +18,7 @@ using Microsoft.Kinect.Toolkit.Controls;
 using Microsoft.Kinect.Toolkit.Interaction;
 using BluetoothRemoteControl;
 using System.Windows.Threading;
+using BluetoothZeuGroupeLib;
 
 namespace MainProjectIntegrationP1
 {
@@ -39,40 +40,39 @@ namespace MainProjectIntegrationP1
         DataSmoother wheelSpeedSmoother;
         DataSmoother wheelRotSmoother;
         DispatcherTimer dispatcherTimer = null;
+   
 
-
+        bool started = false;
         int speed;
         int rotation;
 
         public DrivingControlPage(MainWindow parent)
         {
             InitializeComponent();
-            this.parent = parent;
-
-            if (!parent.bluetooth.isConnected)
-                parent.Content = new RobotRadarPage(parent);
-
-            //TrameSender frame = new TrameSender("770000", parent.bluetooth);
-            
+            this.parent = parent;            
             Init();
             Subscribe();
-            parent.bluetooth.sendToPairedRobot("77");
             parent.bluetooth.Listen();
+            parent.bluetooth.onReceiveMessage += new BluetoothClientModule.onReceiveMessageDelegate(onMessage);
             dispatcherTimer = new DispatcherTimer();
             armTimer();
+        }
 
+        private void onMessage(string name)
+        {
+            lblConsole.Text += "The robot says : "+name+"\n";
         }
 
         public void armTimer()
         {
             dispatcherTimer.Tick += new EventHandler(TimerTick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 250);
-            dispatcherTimer.Start();
         }
 
         private void TimerTick(object sender, EventArgs e)
         {
             parent.bluetooth.sendToPairedRobot("88"+speed+""+rotation);
+            //parent.bluetooth.sendToPairedRobot("880000");
         }
 
         public void Init()
@@ -85,6 +85,7 @@ namespace MainProjectIntegrationP1
             kinect = new VisualDevice();
             kinect.Load(parent.sensor);
             robot = new RobotSimulator();
+            lblConsole.Text += "Kinect operationnal \n";
         }
 
         public void Subscribe()
@@ -93,16 +94,28 @@ namespace MainProjectIntegrationP1
             kinect.onSkeletonFrameReady += new VisualDevice.SkeletonFrameReadyEventHandler(onSkeletonEvent);
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
         {
-           
-            Console.WriteLine("ok");
+            started = !started;
+            if(started == true)
+            {
+                parent.bluetooth.sendToPairedRobot("77");
+                startBtn.Content = "STOP";
+                lblConsole.Text += "77 code sended\n";
+                dispatcherTimer.Start();
+            }
+            else if (started == false)
+            {
+                parent.bluetooth.sendToPairedRobot("99");
+                startBtn.Content = "START";
+                lblConsole.Text += "99 code sended\n";
+                dispatcherTimer.Stop();
+            }
         }
 
         //Methods where the magic happens.
         //Every action depending on Kinect's available frame and data is to be written here.
-
-
         private void onSkeletonEvent(object sender, EventArgs e, double[] data)
         {
             processor = new DataProcessing(data);
@@ -134,24 +147,61 @@ namespace MainProjectIntegrationP1
 
             speed = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
             rotation = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
+            updateCompassWidget(wheelRotValue);
+            updatePowerBar(speed);
             //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
             //Exemples d'utilisation de la méthode de transformation des valeurs pour le format de la trame.
 
-           
+        }
+
+        public void updateCompassWidget(double rot)
+        {
+            RotateTransform rotation = new RotateTransform();
+            Rectangle shape;
+            Line lineV = new Line();
+            Line lineH = new Line();
+            shape = new Rectangle();
+            shape.Stroke = new SolidColorBrush(Colors.Black);
+            shape.Fill = new SolidColorBrush(Colors.Black);
+            shape.Width = 250;
+            shape.Height = 5;
+            shape.RenderTransformOrigin = new Point(0.5, 0.5);
+            rotation.Angle = rot * -1;
+            shape.RenderTransform = rotation;
             
-            //TrameSender frame = new TrameSender("885050",parent.bluetooth);
-            //parent.bluetooth.sendToPairedRobot("880000");
+            lineV.Stroke = Brushes.LightSteelBlue;
 
-            //processor.ValueToPourcentage("assyRotation", assyRotValue);
-            //processor.ValueToPourcentage("assySpeed", assySpeedValue);
+            lineV.X1 = compassCanvas.ActualWidth / 2;
+            lineV.X2 = compassCanvas.ActualWidth / 2;
+            lineV.Y1 = 0;
+            lineV.Y2 = compassCanvas.ActualHeight;
 
-            //robot.directionAngle = bruteAssyRotation;
-            //robot.speed = bruteAssySpeed;
-            //robot.update();
+            lineV.StrokeThickness = 2;
+            lineH.Stroke = Brushes.LightSteelBlue;
+
+            lineH.X1 = 0;
+            lineH.X2 = compassCanvas.ActualWidth;
+            lineH.Y1 = compassCanvas.ActualHeight / 2;
+            lineH.Y2 = compassCanvas.ActualHeight / 2;
+
+            lineH.StrokeThickness = 2;
+            compassCanvas.Children.Clear();
+            compassCanvas.Children.Add(lineH);
+            compassCanvas.Children.Add(lineV);
+            compassCanvas.Children.Add(shape);
+
+            Canvas.SetLeft(shape, compassCanvas.ActualWidth / 2 - (250/2));
+            Canvas.SetTop(shape, compassCanvas.ActualHeight / 2);
+        }
+
+        private void updatePowerBar(double rawSpeedValuePourcentage)
+        {
+            enginePowerBar.Value = 2 * (rawSpeedValuePourcentage - 50);
         }
 
         private void onColorFrameReadyEvent(object sender, EventArgs e, ImageSource bSource)
         {
+
             this.ImageVideo.Source = bSource;
         }
     }

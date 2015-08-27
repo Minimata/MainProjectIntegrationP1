@@ -136,6 +136,7 @@ namespace MainProjectIntegrationP1
 
                 BitmapSource source = BitmapSource.Create(colorImageFrame.Width, colorImageFrame.Height, 96, 96,
                        PixelFormats.Bgr32, null, colorImageData, 640 * 4);
+
                 imageVideo.Source = source;
 
                 onColorFrameReady.Invoke(this, e, imageVideo.Source);
