@@ -35,6 +35,14 @@ namespace MainProjectIntegrationP1
             InitializeComponent();
             initBluetooth();
             initKinectInteraction();
+
+            Closed += new EventHandler(onWindowClosed);
+        }
+
+        private void onWindowClosed(object sender, EventArgs e)
+        {
+            bluetooth.sendToPairedRobot("99");
+            bluetooth.closeConnection();
         }
 
         public void initKinectInteraction()
@@ -70,16 +78,16 @@ namespace MainProjectIntegrationP1
         {
             List<BluetoothRadio> radios = BluetoothClientModule.getAllBluetoothAdapters();
             bluetooth = new BluetoothClientModule(radios.First().LocalAddress.ToString());
-            bluetooth.onConnectionEnded_Event += new BluetoothClientModule.onConnectionEnded(onBluetoothConnectionEnd);
+            //bluetooth.onConnectionEnded_Event += new BluetoothClientModule.onConnectionEnded(onBluetoothConnectionEnd);
         }
 
         /// <summary>
         /// Callback lorsque la connexion est terminé ou interrompu
         /// </summary>
         /// <param name="cause">cause de la fermeture</param>
-        public void onBluetoothConnectionEnd(string cause)
-        {
-            System.Environment.Exit(0);
-        }
+        //public void onBluetoothConnectionEnd(string cause)
+        //{
+        //    System.Environment.Exit(0);
+        //}
     }
 }

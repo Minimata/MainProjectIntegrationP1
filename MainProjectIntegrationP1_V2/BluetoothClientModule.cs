@@ -57,6 +57,10 @@ namespace BluetoothZeuGroupeLib
         public  Boolean listen      = false;
         public  Boolean stop        = false;
 
+
+        private int listenAttemps = 0;
+        private int sendAttemps = 0;
+
         public BluetoothClientModule(String macAddress)
         {
 
@@ -176,19 +180,22 @@ namespace BluetoothZeuGroupeLib
             
             if (localClient != null && localClient.Connected && !stop)
             {
-                   Stream stream = localClient.GetStream();
-                   stream.WriteTimeout = 10000;
+                   
                    try
                    {
-                       StreamWriter sw = new StreamWriter(stream);
+                        Stream stream = localClient.GetStream();
+                        stream.WriteTimeout = 5000;
+                        StreamWriter sw = new StreamWriter(stream);
                        sw.WriteLine(msg);
                        sw.Flush();
+                        sendAttemps = 0;
                    }
                    catch(Exception e)
                    {
-                       if(e is InvalidOperationException  || e is IOException)
+                       Console.WriteLine(e.ToString());
+                        sendAttemps ++;
                        //Connexion coupé
-                       if (onConnectionEnded_Event != null)
+                       if (onConnectionEnded_Event != null && sendAttemps >= 5)
                        {
                            onConnectionEnded_Event.Invoke("cut");
                        }
@@ -217,50 +224,51 @@ namespace BluetoothZeuGroupeLib
 
             while (listen)
             {
-                try
+                if (localClient != null && localClient.Connected)
                 {
-                    if (localClient != null && localClient.Connected)
+                    try
                     {
-                        //Eviter les boucles infinies !
-                        byte[] data = new byte[128];
+                        byte[] data = new byte[6];
 
                         Ns = localClient.GetStream();
-                        Ns.ReadTimeout = 15000;
+                        Ns.ReadTimeout = 5000;
                         Ns.Read(data, 0, data.Length);
-
-
+                        listenAttemps = 0;
                         // event message
                         if (onReceiveMessage != null)
                         {
                             Console.WriteLine("RECEIVED " + data);
-                            onReceiveMessage.Invoke(System.Text.UTF8Encoding.ASCII.GetString(data));
+                            onReceiveMessage.Invoke(ASCIIEncoding.ASCII.GetString(data));
                         }
-
                     }
-
-                    else if(!localClient.Connected)
+                    catch (Exception e)
                     {
-                        Console.WriteLine("Connection Terminer");
+                        Console.WriteLine(e.ToString());
+                        listenAttemps++;
+                        //Connexion coupé
+                        if (onConnectionEnded_Event != null && listenAttemps >= 5)
+                        {
+                            onConnectionEnded_Event.Invoke("cut");
+                        }
                     }
                 }
-                catch (ArgumentOutOfRangeException e)
+                else if(!localClient.Connected)
                 {
-                    //Connexion coupé
-                    if (onConnectionEnded_Event != null)
-                    {
-                        onConnectionEnded_Event.Invoke("cut");
-                    }
-
+                    Console.WriteLine("Connection Terminer ou jamais initié");
                 }
             }
         }
 
-        public void stopListen()
+        public void reconnect()
+        {
+
+        }
+
+        public void closeConnection()
         {
             listen = false;
             localClient.Close();
             stop = true;
-
             //Connexion coupé
             if (onConnectionEnded_Event != null)
             {
