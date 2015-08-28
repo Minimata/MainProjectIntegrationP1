@@ -72,6 +72,7 @@ namespace MainProjectIntegrationP1
         private void startProgram()
         {
             this.Content = new MainPage(this);
+            //this.Content = new DrivingControlPage(this);
         }
 
         public void initBluetooth()

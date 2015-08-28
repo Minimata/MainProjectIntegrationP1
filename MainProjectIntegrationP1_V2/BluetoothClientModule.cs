@@ -29,6 +29,8 @@ namespace BluetoothZeuGroupeLib
         //Lecture du flux réseau
         private NetworkStream               Ns = null;
         private BluetoothDeviceInfo         pairedRobot { get; set; }
+        private Stream stream;
+        private StreamWriter sw;
 
         /*
          * Delegates & Events
@@ -180,14 +182,16 @@ namespace BluetoothZeuGroupeLib
             
             if (localClient != null && localClient.Connected && !stop)
             {
-                   
                    try
                    {
-                        Stream stream = localClient.GetStream();
+                        stream = localClient.GetStream();
                         stream.WriteTimeout = 5000;
-                        StreamWriter sw = new StreamWriter(stream);
-                       sw.WriteLine(msg);
-                       sw.Flush();
+                        if(sw == null)
+                        {
+                            sw = new StreamWriter(stream);
+                            sw.AutoFlush = true;
+                        }
+                        sw.WriteLine(msg);
                         sendAttemps = 0;
                    }
                    catch(Exception e)
@@ -246,7 +250,7 @@ namespace BluetoothZeuGroupeLib
                         Console.WriteLine(e.ToString());
                         listenAttemps++;
                         //Connexion coupé
-                        if (onConnectionEnded_Event != null && listenAttemps >= 5)
+                        if (onConnectionEnded_Event != null && listenAttemps >= 20)
                         {
                             onConnectionEnded_Event.Invoke("cut");
                         }

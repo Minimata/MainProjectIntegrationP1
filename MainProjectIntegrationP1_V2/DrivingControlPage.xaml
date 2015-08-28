@@ -32,6 +32,7 @@
 
             </ProgressBar>
             <Label x:Name="label_Copy" Content="Engine Power"  HorizontalAlignment="Center" Margin="10,10,10,0" VerticalAlignment="Top" Height="58" Width="377" RenderTransformOrigin="0.501,0.15" Foreground="#FF52318F" FontSize="32" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="lblDir" Content="FW >> " Foreground="#FF7380FF"  Grid.Column="1" Margin="10,0,10,5" Grid.Row="1" Width="377" FontSize="32" FontWeight="Bold" Height="97" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
 
 
@@ -51,8 +52,8 @@
             <Label Grid.Column="0" x:Name="labelWheelRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,235,0,0" VerticalAlignment="Top" Width="315"/>
             <Label Grid.Column="0" x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,260,0,0" VerticalAlignment="Top" Width="310"/>
             <Label Grid.Column="0" x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,285,0,0" VerticalAlignment="Top" Width="315"/>
-            <ScrollViewer x:Name="scroolConsole" Background="black" Grid.Row="1" Margin="10" >
-                <TextBlock x:Name="lblConsole" Foreground="Lime" />
+            <ScrollViewer x:Name="scroolConsole" Background="#FFCACFD3" Grid.Row="1" Margin="10,132,10,10" >
+                <TextBlock x:Name="lblConsole" Foreground="#FF7380FF" />
             </ScrollViewer>
             <Label x:Name="label" Content="Player name"  HorizontalAlignment="Center" Margin="15,0,5,0" VerticalAlignment="Top" Height="77" Width="377" RenderTransformOrigin="0.501,0.15" Foreground="#FF52318F" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center"/>
         </Grid>

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MainProjectIntegrationP1
 {
@@ -16,19 +12,23 @@ namespace MainProjectIntegrationP1
         const double maxWheelAngle = 90;
         const double coeffWheelRotation = 1;
         //Wheel Speed
-        const double maxWheelSpeed = 200;
-        const double coeffWheelSpeed = 200;
+        const double maxWheelSpeed = 110;
+        const double coeffWheelSpeed = 250;
         const double FINALcoeffWheelSpeed = 1;
+        const double neutralWheelSpeed = 100;
+        const double neutralWheelSpeedWidth = 20;
         //Assymetric Rotation
         const double maxAssyRotation = 180;
-        const double coeffAssyRotation = 300;
-        const double FINALcoeffAssyRotation = 1;
-        const double neutralAssyRotation = 10;
+        const double coeffAssyRotation = 200;
+        const double FINALcoeffAssyRotation = -1;
+        const double neutralAssyRotationWidth = 4;
+        const double neutralAssyRotation = 0;
         //Assymetric Speed
         const double maxAssySpeed = 100;
         const double coeffAssySpeed = 500;
         const double FINALcoeffAssySpeed = 1;
-        const double neutralAssySpeed = 10;
+        const double neutralAssySpeed = 0;
+        const double neutralAssySpeedWidth = 50;
 
         //Constructor
         public DataProcessing(double[] coordinates)
@@ -102,7 +102,7 @@ namespace MainProjectIntegrationP1
         {
             double dist = Math.Sqrt(Math.Pow(DistX, 2) + Math.Pow(DistY, 2)); //Pythagore
             dist *= coeffWheelSpeed;
-            dist = NeutralBand(dist, 20, 40);
+            dist = NeutralBand(dist, neutralWheelSpeedWidth, neutralWheelSpeed);
 
             if (dist > maxWheelSpeed) dist = maxWheelSpeed;
             dist *= FINALcoeffWheelSpeed;
@@ -115,15 +115,11 @@ namespace MainProjectIntegrationP1
             double height = (RightY + LeftY) / 2;
 
             height *= coeffAssySpeed;
+            height = NeutralBand(height, neutralAssySpeedWidth, neutralAssySpeed);
+
             if (height >= maxAssySpeed) height = maxAssySpeed;
-            else
-            {
-                if (height <= -maxAssySpeed) height = -maxAssySpeed;
-                else
-                {
-                    NeutralBand(height, neutralAssySpeed);
-                }
-            }
+            else if (height <= -maxAssySpeed) height = -maxAssySpeed;
+
             height *= FINALcoeffAssySpeed;
 
             return height;
@@ -140,7 +136,7 @@ namespace MainProjectIntegrationP1
                 if (rotation <= -maxAssyRotation) rotation = -maxAssyRotation;
                 else
                 {
-                    NeutralBand(rotation, neutralAssyRotation);
+                    rotation = NeutralBand(rotation, neutralAssyRotationWidth, neutralAssyRotation);
                 }
             }
             rotation *= FINALcoeffAssyRotation;
@@ -152,6 +148,7 @@ namespace MainProjectIntegrationP1
         {
             double height = value;
             double newHeight = 0;
+            double distance = height - center;
 
             if ((height <= bandWidth + center) && (height >= center - bandWidth))
             {
@@ -159,11 +156,12 @@ namespace MainProjectIntegrationP1
             }
             else
             {
-                newHeight = Math.Abs(height) - bandWidth - center;
-                if (height >= 0) height = newHeight;
-                else height = -newHeight;
+                if (distance < 0) newHeight = distance + bandWidth;
+                else newHeight = distance - bandWidth;
+                //if (height >= 0) height = newHeight;
+                //else height = -newHeight;
             }
-
+            height = newHeight;
             return height;
         }
     }

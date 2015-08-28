@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using BluetoothZeuGroupeLib;
+using System.Timers;
 
 namespace MainProjectIntegrationP1
 {
@@ -25,7 +26,8 @@ namespace MainProjectIntegrationP1
         DataSmoother assySpeedSmoother;
         DataSmoother wheelSpeedSmoother;
         DataSmoother wheelRotSmoother;
-        DispatcherTimer dispatcherTimer = null;
+        //DispatcherTimer dispatcherTimer = null;
+        Timer timer;
    
 
         bool started = false;
@@ -43,10 +45,10 @@ namespace MainProjectIntegrationP1
             this.parent = parent;            
             Init();
             Subscribe();
-            parent.bluetooth.Listen();
+            //parent.bluetooth.Listen();
             parent.bluetooth.onReceiveMessage += new BluetoothClientModule.onReceiveMessageDelegate(onMessage);
             parent.bluetooth.onConnectionEnded_Event += new BluetoothClientModule.onConnectionEnded(onConnectionEnded);
-            dispatcherTimer = new DispatcherTimer();
+            //dispatcherTimer = new DispatcherTimer();
             armTimer();
 
             shape = new Rectangle();
@@ -80,15 +82,27 @@ namespace MainProjectIntegrationP1
 
         public void armTimer()
         {
-            dispatcherTimer.Tick += new EventHandler(TimerTick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 250);
+            //dispatcherTimer.Tick += new EventHandler(TimerTick);
+            //dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 230);
+            timer = new Timer(230);
+            timer.Elapsed += sysTimerTick;
+            timer.Start();
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void sysTimerTick(object sender, ElapsedEventArgs e)
         {
-            parent.bluetooth.sendToPairedRobot("88"+speed+""+rotation);
-            //parent.bluetooth.sendToPairedRobot("880000");
+            parent.bluetooth.sendToPairedRobot("88" + speed + "" + rotation);
+            
         }
+
+        //private void TimerTick(object sender, EventArgs e)
+        //{
+        //    parent.bluetooth.sendToPairedRobot("88"+speed+""+rotation);
+        //    //parent.bluetooth.sendToPairedRobot("880000");
+        //    //Thread t = new Thread(new ThreadStart(doListen));
+        //    //t.Name = "Listen Thread";
+        //    //t.Start();
+        //}
 
         public void Init()
         {
@@ -118,14 +132,14 @@ namespace MainProjectIntegrationP1
                 parent.bluetooth.sendToPairedRobot("77");
                 startBtn.Content = "STOP";
                 lblConsole.Text += "77 code sended\n";
-                dispatcherTimer.Start();
+                timer.Start();
             }
             else if (started == false)
             {
                 parent.bluetooth.sendToPairedRobot("99");
                 startBtn.Content = "START";
                 lblConsole.Text += "99 code sended\n";
-                dispatcherTimer.Stop();
+                timer.Stop();
             }
 
             lblConsole.Text += "Button start / stop clicked \n";
@@ -139,33 +153,33 @@ namespace MainProjectIntegrationP1
 
             bruteWheelRotation = processor.WheelRotation();
             bruteWheelSpeed = processor.WheelSpeed();
-            //bruteAssyRotation = processor.AssyRotation();
-            //bruteAssySpeed = processor.AssySpeed();
+            bruteAssyRotation = processor.AssyRotation();
+            bruteAssySpeed = processor.AssySpeed();
 
             labelLeftX.Content = "Left Hand Position in X-axis :" + Math.Round(data[0], 2).ToString();
             labelLeftY.Content = "Left Hand Position in Y-axis :" + Math.Round(data[1], 2).ToString();
             labelRightX.Content = "Right Hand Position in X-axis :" + Math.Round(data[2], 2).ToString();
             labelRightY.Content = "Right Hand Position in Y-axis :" + Math.Round(data[3], 2).ToString();
 
-            //assyRotSmoother.updateValue(bruteAssyRotation);
-            //assySpeedSmoother.updateValue(bruteAssySpeed);
+            assyRotSmoother.updateValue(bruteAssyRotation);
+            assySpeedSmoother.updateValue(bruteAssySpeed);
             wheelSpeedSmoother.updateValue(bruteWheelSpeed);
             wheelRotSmoother.updateValue(bruteWheelRotation);
 
             double wheelRotValue = wheelRotSmoother.UpdateExponential();
             double wheelSpeedValue = wheelSpeedSmoother.UpdateExponential();
-            //double assySpeedValue = assySpeedSmoother.UpdateExponential();
-            //double assyRotValue = assyRotSmoother.UpdateExponential();
+            double assySpeedValue = assySpeedSmoother.UpdateExponential();
+            double assyRotValue = assyRotSmoother.UpdateExponential();
 
             labelWheelSpeed.Content = "Wheel Speed Value : " + Math.Round(wheelSpeedValue);
             labelWheelRotation.Content = "Wheel Rotation Value : " + Math.Round(wheelRotValue);
-            //labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
-            //labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
+            labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
+            labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
 
-            speed = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
-            rotation = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
-            updateCompassWidget(wheelRotValue);
-            updatePowerBar(speed,wheelSpeedValue);
+            speed = processor.ValueToPourcentage("assySpeed", assySpeedValue);
+            rotation = processor.ValueToPourcentage("assyRotation", assyRotValue);
+            updateCompassWidget(assyRotValue);
+            updatePowerBar(speed,assySpeedValue);
             //lblConsole.Text += "88" + speed+""+rotation+"\n";
             scroolConsole.ScrollToEnd();
             //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
@@ -205,26 +219,18 @@ namespace MainProjectIntegrationP1
 
         private void updatePowerBar(double rawSpeedValuePourcentage,double rawSpeedValue)
         {
-            //if (rawSpeedValue < 10 )
-            //{
-            //    enginePowerBar.Foreground = new SolidColorBrush(Colors.Yellow);
-            //    rawSpeedValuePourcentage = 100;
-
-            //}
-            //else if (rawSpeedValue > 10 && rawSpeedValue < 50)
-            //{
-            //    enginePowerBar.Foreground = new SolidColorBrush(Colors.Green);
-            //    rawSpeedValuePourcentage = 100;
-            //}
-            //else
-            //    enginePowerBar.Foreground = new SolidColorBrush(Colors.Blue);
-
             enginePowerBar.Value = 2 * (rawSpeedValuePourcentage - 50);
+
+            if (rawSpeedValuePourcentage < 50)
+                lblDir.Content = "BW <<";
+            else if (rawSpeedValuePourcentage > 50)
+                lblDir.Content = "FW >>";
+            else
+                lblDir.Content = "STOP ||";
         }
 
         private void onColorFrameReadyEvent(object sender, EventArgs e, ImageSource bSource)
         {
-
             this.ImageVideo.Source = bSource;
         }
     }
