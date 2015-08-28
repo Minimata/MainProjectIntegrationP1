@@ -81,21 +81,21 @@ namespace MainProjectIntegrationP1
 
             bruteWheelRotation = processor.WheelRotation();
             bruteWheelSpeed = processor.WheelSpeed();
-            bruteAssyRotation = processor.AssyRotation();
-            bruteAssySpeed = processor.AssySpeed();
+            //bruteAssyRotation = processor.AssyRotation();
+            //bruteAssySpeed = processor.AssySpeed();
 
-            assyRotSmoother.updateValue(bruteAssyRotation);
-            assySpeedSmoother.updateValue(bruteAssySpeed);
+            //assyRotSmoother.updateValue(bruteAssyRotation);
+            //assySpeedSmoother.updateValue(bruteAssySpeed);
             wheelSpeedSmoother.updateValue(bruteWheelSpeed);
             wheelRotSmoother.updateValue(bruteWheelRotation);
 
             double wheelRotValue = wheelRotSmoother.UpdateExponential();
             double wheelSpeedValue = wheelSpeedSmoother.UpdateExponential();
-            double assySpeedValue = assySpeedSmoother.UpdateExponential();
-            double assyRotValue = assyRotSmoother.UpdateExponential();
+            //double assySpeedValue = assySpeedSmoother.UpdateExponential();
+            //double assyRotValue = assyRotSmoother.UpdateExponential();
 
-            robot.directionAngle = bruteAssyRotation;
-            robot.speed = bruteAssySpeed;
+            robot.directionAngle += wheelRotValue;
+            robot.speed = wheelSpeedValue;
             robot.update();
             MainCanvas.Children.Clear();
             robot.draw(MainCanvas);
