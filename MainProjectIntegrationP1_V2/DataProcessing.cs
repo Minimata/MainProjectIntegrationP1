@@ -16,8 +16,8 @@ namespace MainProjectIntegrationP1
         const double maxWheelAngle = 90;
         const double coeffWheelRotation = 1;
         //Wheel Speed
-        const double maxWheelSpeed = 600;
-        const double coeffWheelSpeed = 400;
+        const double maxWheelSpeed = 200;
+        const double coeffWheelSpeed = 200;
         const double FINALcoeffWheelSpeed = 1;
         //Assymetric Rotation
         const double maxAssyRotation = 180;
@@ -102,7 +102,7 @@ namespace MainProjectIntegrationP1
         {
             double dist = Math.Sqrt(Math.Pow(DistX, 2) + Math.Pow(DistY, 2)); //Pythagore
             dist *= coeffWheelSpeed;
-            dist = NeutralBand(dist, 50);
+            dist = NeutralBand(dist, 20, 40);
 
             if (dist > maxWheelSpeed) dist = maxWheelSpeed;
             dist *= FINALcoeffWheelSpeed;
@@ -148,15 +148,18 @@ namespace MainProjectIntegrationP1
             return rotation;
         }
 
-        private double NeutralBand(double value, double bandWidth)
+        private double NeutralBand(double value, double bandWidth, double center = 0)
         {
             double height = value;
             double newHeight = 0;
 
-            if (Math.Abs(height) <= bandWidth) height = 0;
+            if ((height <= bandWidth + center) && (height >= center - bandWidth))
+            {
+                height = 0;
+            }
             else
             {
-                newHeight = Math.Abs(height) - neutralAssySpeed;
+                newHeight = Math.Abs(height) - bandWidth - center;
                 if (height >= 0) height = newHeight;
                 else height = -newHeight;
             }

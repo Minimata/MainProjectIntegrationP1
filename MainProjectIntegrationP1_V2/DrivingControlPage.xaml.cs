@@ -52,15 +52,15 @@ namespace MainProjectIntegrationP1
             this.parent = parent;            
             Init();
             Subscribe();
-            parent.bluetooth.Listen();
-            parent.bluetooth.onReceiveMessage += new BluetoothClientModule.onReceiveMessageDelegate(onMessage);
+            //parent.bluetooth.Listen();
+            //parent.bluetooth.onReceiveMessage += new BluetoothClientModule.onReceiveMessageDelegate(onMessage);
             dispatcherTimer = new DispatcherTimer();
             armTimer();
         }
 
         private void onMessage(string name)
         {
-            lblConsole.Text += "The robot says : "+name+"\n";
+            //lblConsole.Text += "The robot says : "+name+"\n";
         }
 
         public void armTimer()
@@ -148,10 +148,11 @@ namespace MainProjectIntegrationP1
             speed = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
             rotation = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
             updateCompassWidget(wheelRotValue);
-            updatePowerBar(speed);
+            updatePowerBar(speed,wheelSpeedValue);
+            lblConsole.Text += "88" + speed+""+rotation+"\n";
+            scroolConsole.ScrollToEnd();
             //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
             //Exemples d'utilisation de la méthode de transformation des valeurs pour le format de la trame.
-
         }
 
         public void updateCompassWidget(double rot)
@@ -194,8 +195,22 @@ namespace MainProjectIntegrationP1
             Canvas.SetTop(shape, compassCanvas.ActualHeight / 2);
         }
 
-        private void updatePowerBar(double rawSpeedValuePourcentage)
+        private void updatePowerBar(double rawSpeedValuePourcentage,double rawSpeedValue)
         {
+            if (rawSpeedValue < 10 )
+            {
+                enginePowerBar.Foreground = new SolidColorBrush(Colors.Yellow);
+                rawSpeedValuePourcentage = 100;
+
+            }
+            else if (rawSpeedValue > 10 && rawSpeedValue < 50)
+            {
+                enginePowerBar.Foreground = new SolidColorBrush(Colors.Green);
+                rawSpeedValuePourcentage = 100;
+            }
+            else
+                enginePowerBar.Foreground = new SolidColorBrush(Colors.Blue);
+
             enginePowerBar.Value = 2 * (rawSpeedValuePourcentage - 50);
         }
 

@@ -18,47 +18,44 @@ namespace BluetoothZeuGroupeLib
         /*
          * Bluetooth vars & classes
          * */
-        private List<BluetoothDeviceInfo> robots{get;set;}
+        private List<BluetoothDeviceInfo>   robots{get;set;}
         // mac is mac address of local bluetooth device
-        private BluetoothEndPoint localEndpoint{get;set;}
+        private BluetoothEndPoint           localEndpoint{get;set;}
         // client is used to manage connections
-        private BluetoothClient localClient { get; set; }
+        private BluetoothClient             localClient { get; set; }
         // component is used to manage device discovery
-        private BluetoothComponent localComponent { get; set; }
-        private BluetoothListener Bluetoothlistener {get;set;}
+        private BluetoothComponent          localComponent { get; set; }
+        private BluetoothListener           Bluetoothlistener {get;set;}
         //Lecture du flux réseau
-        private NetworkStream Ns = null;
-        private BluetoothDeviceInfo pairedRobot { get; set; }
+        private NetworkStream               Ns = null;
+        private BluetoothDeviceInfo         pairedRobot { get; set; }
 
         /*
          * Delegates & Events
          * */
 
         //Event pour message recus 
-        public delegate void onReceiveMessageDelegate(String name);
-        public event onReceiveMessageDelegate onReceiveMessage;
+        public delegate void    onReceiveMessageDelegate(String name);
+        public event            onReceiveMessageDelegate onReceiveMessage;
 
         //Event pour robot découvert
-        public delegate void onRobotDiscovered(String name);
-        public event onRobotDiscovered onRobotDiscovered_Event;
+        public delegate void    onRobotDiscovered(String name);
+        public event            onRobotDiscovered onRobotDiscovered_Event;
 
         //Event pour  découverte fini
-        public delegate void onRobotsDiscoverDone(List<String> robotsNames);
-        public event onRobotsDiscoverDone onRobotsDiscoverDone_Event;
+        public delegate void    onRobotsDiscoverDone(List<String> robotsNames);
+        public event            onRobotsDiscoverDone onRobotsDiscoverDone_Event;
 
         //Event pour connection terminer
-        public delegate void onConnectionEnded(String cause);
-        public event onConnectionEnded onConnectionEnded_Event;
+        public delegate void    onConnectionEnded(String cause);
+        public event            onConnectionEnded onConnectionEnded_Event;
         
-        public Boolean isPaired {get; set;}
-        private Boolean isScanDone {get;set;}
-        public Boolean isConnected {get;set;}
-        private String guid = "{00112233-4455-6677-8899-aabbccddeeff}";
-        private Boolean isSlave { get; set; }
-
-        public Boolean listen = false;
-
-        public Boolean stop = false;
+        public  Boolean isPaired    {get; set;}
+        private Boolean isScanDone  {get;set;}
+        public  Boolean isConnected {get;set;}
+        private Boolean isSlave     { get; set; }
+        public  Boolean listen      = false;
+        public  Boolean stop        = false;
 
         public BluetoothClientModule(String macAddress)
         {
@@ -85,7 +82,6 @@ namespace BluetoothZeuGroupeLib
 
             localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
             localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
-            guid = BluetoothService.SerialPort.ToString();
         }
 
         /// <summary>
@@ -229,7 +225,7 @@ namespace BluetoothZeuGroupeLib
                         byte[] data = new byte[128];
 
                         Ns = localClient.GetStream();
-                        Ns.ReadTimeout = 10000;
+                        Ns.ReadTimeout = 15000;
                         Ns.Read(data, 0, data.Length);
 
 

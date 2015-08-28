@@ -41,7 +41,7 @@
                 <RowDefinition Height="40*" />
                 <RowDefinition Height="20*" />
             </Grid.RowDefinitions>
-            <Button x:Name="startBtn" Content="Start" Grid.Row="2" Click="button_Click_1"/>
+            <Button x:Name="startBtn" Foreground="#FF8C02FF" Content="Start" Grid.Row="2" Click="button_Click_1" Margin="10" FontSize="64" FontWeight="Bold"/>
 
             <Label Grid.Column="0" x:Name="labelLeftX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,110,0,0" VerticalAlignment="Top" Width="310"/>
             <Label Grid.Column="0" x:Name="labelRightX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,135,0,0" VerticalAlignment="Top" Width="315"/>
@@ -51,7 +51,7 @@
             <Label Grid.Column="0" x:Name="labelWheelRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,235,0,0" VerticalAlignment="Top" Width="315"/>
             <Label Grid.Column="0" x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,260,0,0" VerticalAlignment="Top" Width="310"/>
             <Label Grid.Column="0" x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,285,0,0" VerticalAlignment="Top" Width="315"/>
-            <ScrollViewer Background="black" Grid.Row="1" >
+            <ScrollViewer x:Name="scroolConsole" Background="black" Grid.Row="1" Margin="10" >
                 <TextBlock x:Name="lblConsole" Foreground="Lime" />
             </ScrollViewer>
             <Label x:Name="label" Content="Player name"  HorizontalAlignment="Center" Margin="15,0,5,0" VerticalAlignment="Top" Height="77" Width="377" RenderTransformOrigin="0.501,0.15" Foreground="#FF52318F" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center"/>
