@@ -28,6 +28,7 @@ namespace MainProjectIntegrationP1
         DataSmoother wheelRotSmoother;
         //DispatcherTimer dispatcherTimer = null;
         Timer timer;
+        String drivingMode = "wheel";
    
 
         bool started = false;
@@ -54,6 +55,7 @@ namespace MainProjectIntegrationP1
             shape = new Rectangle();
             shape.Stroke = new SolidColorBrush(Colors.Black);
             shape.Fill = new SolidColorBrush(Colors.Black);
+            lblPlayerName.Content = parent.playerName;
         }
 
         private void onConnectionEnded(string cause)
@@ -82,34 +84,22 @@ namespace MainProjectIntegrationP1
 
         public void armTimer()
         {
-            //dispatcherTimer.Tick += new EventHandler(TimerTick);
-            //dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 230);
-            timer = new Timer(230);
+            timer = new Timer(210);
             timer.Elapsed += sysTimerTick;
-            timer.Start();
         }
 
         private void sysTimerTick(object sender, ElapsedEventArgs e)
         {
             parent.bluetooth.sendToPairedRobot("88" + speed + "" + rotation);
-            
         }
 
-        //private void TimerTick(object sender, EventArgs e)
-        //{
-        //    parent.bluetooth.sendToPairedRobot("88"+speed+""+rotation);
-        //    //parent.bluetooth.sendToPairedRobot("880000");
-        //    //Thread t = new Thread(new ThreadStart(doListen));
-        //    //t.Name = "Listen Thread";
-        //    //t.Start();
-        //}
 
         public void Init()
         {
-            assyRotSmoother = new DataSmoother();
-            assySpeedSmoother = new DataSmoother();
-            wheelSpeedSmoother = new DataSmoother();
-            wheelRotSmoother = new DataSmoother();
+            assyRotSmoother = new DataSmoother(0.62);
+            assySpeedSmoother = new DataSmoother(0.62);
+            wheelSpeedSmoother = new DataSmoother(0.75);
+            wheelRotSmoother = new DataSmoother(0.5);
 
             kinect = new VisualDevice();
             kinect.Load(parent.sensor);
@@ -156,11 +146,6 @@ namespace MainProjectIntegrationP1
             bruteAssyRotation = processor.AssyRotation();
             bruteAssySpeed = processor.AssySpeed();
 
-            labelLeftX.Content = "Left Hand Position in X-axis :" + Math.Round(data[0], 2).ToString();
-            labelLeftY.Content = "Left Hand Position in Y-axis :" + Math.Round(data[1], 2).ToString();
-            labelRightX.Content = "Right Hand Position in X-axis :" + Math.Round(data[2], 2).ToString();
-            labelRightY.Content = "Right Hand Position in Y-axis :" + Math.Round(data[3], 2).ToString();
-
             assyRotSmoother.updateValue(bruteAssyRotation);
             assySpeedSmoother.updateValue(bruteAssySpeed);
             wheelSpeedSmoother.updateValue(bruteWheelSpeed);
@@ -171,16 +156,26 @@ namespace MainProjectIntegrationP1
             double assySpeedValue = assySpeedSmoother.UpdateExponential();
             double assyRotValue = assyRotSmoother.UpdateExponential();
 
-            labelWheelSpeed.Content = "Wheel Speed Value : " + Math.Round(wheelSpeedValue);
-            labelWheelRotation.Content = "Wheel Rotation Value : " + Math.Round(wheelRotValue);
-            labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
-            labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
+            //labelWheelSpeed.Content = "Wheel Speed Value : " + Math.Round(wheelSpeedValue);
+            //labelWheelRotation.Content = "Wheel Rotation Value : " + Math.Round(wheelRotValue);
+            //labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
+            //labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
 
-            speed = processor.ValueToPourcentage("assySpeed", assySpeedValue);
-            rotation = processor.ValueToPourcentage("assyRotation", assyRotValue);
-            updateCompassWidget(assyRotValue);
-            updatePowerBar(speed,assySpeedValue);
-            //lblConsole.Text += "88" + speed+""+rotation+"\n";
+            switch(drivingMode)
+            {
+                case "wheel":
+                    speed = processor.ValueToPourcentage("assySpeed", assySpeedValue);
+                    rotation = processor.ValueToPourcentage("assyRotation", assyRotValue);
+                    updateCompassWidget(assyRotValue);
+                    updatePowerBar(speed, assySpeedValue);
+                    break;
+                case "assy":
+                    speed = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
+                    rotation = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
+                    updateCompassWidget(wheelRotValue);
+                    updatePowerBar(speed, wheelSpeedValue);
+                    break;
+            }
             scroolConsole.ScrollToEnd();
             //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
             //Exemples d'utilisation de la méthode de transformation des valeurs pour le format de la trame.
@@ -215,6 +210,16 @@ namespace MainProjectIntegrationP1
 
             Canvas.SetLeft(shape, compassCanvas.ActualWidth / 2 - (250/2));
             Canvas.SetTop(shape, compassCanvas.ActualHeight / 2);
+        }
+
+        private void radioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            drivingMode = "wheel";
+        }
+
+        private void radioButton2_Checked(object sender, RoutedEventArgs e)
+        {
+            drivingMode = "assy";
         }
 
         private void updatePowerBar(double rawSpeedValuePourcentage,double rawSpeedValue)

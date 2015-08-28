@@ -38,24 +38,22 @@
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40*" />
-                <RowDefinition Height="40*" />
                 <RowDefinition Height="20*" />
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="15*" />
+                <RowDefinition Height="15*" />
             </Grid.RowDefinitions>
             <Button x:Name="startBtn" Foreground="#FF8C02FF" Content="Start" Grid.Row="2" Click="button_Click_1" Margin="10" FontSize="64" FontWeight="Bold"/>
-
-            <Label Grid.Column="0" x:Name="labelLeftX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,110,0,0" VerticalAlignment="Top" Width="310"/>
-            <Label Grid.Column="0" x:Name="labelRightX" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,135,0,0" VerticalAlignment="Top" Width="315"/>
-            <Label Grid.Column="0" x:Name="labelLeftY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,160,0,0" VerticalAlignment="Top" Width="310"/>
-            <Label Grid.Column="0" x:Name="labelRightY" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,185,0,0" VerticalAlignment="Top" Width="315"/>
-            <Label Grid.Column="0" x:Name="labelWheelSpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,210,0,0" VerticalAlignment="Top" Width="310"/>
-            <Label Grid.Column="0" x:Name="labelWheelRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,235,0,0" VerticalAlignment="Top" Width="315"/>
-            <Label Grid.Column="0" x:Name="labelAssySpeed" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,260,0,0" VerticalAlignment="Top" Width="310"/>
-            <Label Grid.Column="0" x:Name="labelAssyRotation" Content="Label" HorizontalAlignment="Left" Height="23" Margin="10,285,0,0" VerticalAlignment="Top" Width="315"/>
-            <ScrollViewer x:Name="scroolConsole" Background="#FFCACFD3" Grid.Row="1" Margin="10,132,10,10" >
+            <ScrollViewer x:Name="scroolConsole" Background="#FFCACFD3" Margin="10,16,10,10" Grid.Row="1" >
                 <TextBlock x:Name="lblConsole" Foreground="#FF7380FF" />
             </ScrollViewer>
-            <Label x:Name="label" Content="Player name"  HorizontalAlignment="Center" Margin="15,0,5,0" VerticalAlignment="Top" Height="77" Width="377" RenderTransformOrigin="0.501,0.15" Foreground="#FF52318F" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+            <Label x:Name="lblPlayerName" Content="Player name" Margin="15,0,5,0" VerticalAlignment="Top" Height="77" Width="377" RenderTransformOrigin="0.501,0.15" Foreground="#FF52318F" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+            <RadioButton x:Name="radioButton" Content="Volant" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.098,0.422" Height="15" Width="112" GroupName="drivingMode" IsChecked="True" Checked="radioButton_Checked"/>
+            <RadioButton x:Name="radioButton2" Content="Assymétrique" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Checked="radioButton2_Checked" GroupName="drivingMode"/>
+            <Button x:Name="decoBtn" Foreground="#FF8C02FF" Content="Deco" Grid.Row="3" Click="button_Click_1" Margin="10" FontSize="64" FontWeight="Bold"/>
+            <Label x:Name="label" HorizontalContentAlignment="Center" Content="Méthode de conduite" Margin="0,100,0,63" Width="183" Foreground="#FF0A90FF" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left"/>
+            <Label x:Name="label_Copy1" HorizontalContentAlignment="Center" Content="Options console" Margin="0,100,0,63" Width="137" Foreground="#FF0A90FF" FontWeight="Bold" FontSize="16" HorizontalAlignment="Right"/>
+            <CheckBox x:Name="checkBox" Content="debug m. conduite" Margin="270,136,10,0" Height="15" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Page>

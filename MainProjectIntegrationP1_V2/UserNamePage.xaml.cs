@@ -221,6 +221,7 @@ namespace MainProjectIntegrationP1
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
+            parent.playerName = lblName.Content.ToString();
             RobotRadarPage Robot = new RobotRadarPage(this.parent);
             parent.Content = Robot;
         }
