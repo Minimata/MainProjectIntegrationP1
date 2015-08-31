@@ -180,8 +180,7 @@ namespace MainProjectIntegrationP1
                     updatePowerBar(speed, wheelSpeedValue);
                     break;
             }
-
-            lblConsole.Text += drivingMode + "\n";
+            
 
             scroolConsole.ScrollToEnd();
             lblConsole.Text = lblConsole.Text.ToString().Substring((int)lblConsole.Text.Length / 6);

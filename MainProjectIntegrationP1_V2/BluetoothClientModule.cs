@@ -68,8 +68,7 @@ namespace BluetoothZeuGroupeLib
         {
             init(macAddress);
             macAddr = macAddress;
-            localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
-            localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+           
         }
 
         private void init(String macAddress)
@@ -78,6 +77,7 @@ namespace BluetoothZeuGroupeLib
             isScanDone = false;
             isConnected = false;
             isSlave = true;
+            stop = false;
             robots = new List<BluetoothDeviceInfo>();
 
 
@@ -93,6 +93,9 @@ namespace BluetoothZeuGroupeLib
             {
                 Console.WriteLine(e.ToString());
             }
+
+            localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
+            localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
 
         }
 
@@ -264,8 +267,10 @@ namespace BluetoothZeuGroupeLib
                 }
                 else if(stop)
                 {
+                    Ns.Dispose();
                     Ns.Close();
                     closeConnection();
+                    init(macAddr);
                 }
                 else if (!localClient.Connected)
                 {
@@ -279,8 +284,6 @@ namespace BluetoothZeuGroupeLib
                 stop = true;
             else
                 closeConnection();
-
-            init(macAddr);
         }
 
         public void closeConnection()
@@ -288,12 +291,21 @@ namespace BluetoothZeuGroupeLib
             listen = false;
             stop = true;
             timer.Stop();
-            localClient.Dispose();
-            localClient.Close();
+            try
+            {
+                //localClient.Dispose();
+                localClient.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            
+            
             //Connexion coupé
             if (onConnectionEnded_Event != null)
             {
-                onConnectionEnded_Event.Invoke("user");
+                //onConnectionEnded_Event.Invoke("user");
             }
         }
     }
