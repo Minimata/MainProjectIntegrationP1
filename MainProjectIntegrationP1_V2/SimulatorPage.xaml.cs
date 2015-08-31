@@ -27,14 +27,15 @@ namespace MainProjectIntegrationP1
     {
         VisualDevice kinect;
         double bruteWheelSpeed, bruteWheelRotation;
-        //double bruteAssySpeed, bruteAssyRotation;
+        double bruteAssySpeed, bruteAssyRotation;
         DataProcessing processor;
         RobotSimulator robot;
         MainWindow parent;
-        
+        String drivingMode = "wheel";
 
-        //DataSmoother assyRotSmoother;
-        //DataSmoother assySpeedSmoother;
+
+        DataSmoother assyRotSmoother;
+        DataSmoother assySpeedSmoother;
         DataSmoother wheelSpeedSmoother;
         DataSmoother wheelRotSmoother;
 
@@ -56,8 +57,8 @@ namespace MainProjectIntegrationP1
 
         public void Init()
         {
-            //assyRotSmoother = new DataSmoother();
-            //assySpeedSmoother = new DataSmoother();
+            assyRotSmoother = new DataSmoother();
+            assySpeedSmoother = new DataSmoother();
             wheelSpeedSmoother = new DataSmoother();
             wheelRotSmoother = new DataSmoother();
 
@@ -83,32 +84,55 @@ namespace MainProjectIntegrationP1
             this.ImageVideo.Source = bSource;
         }
 
+        //private void radioButton2_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    drivingMode = "assy";
+        //}
+
+        private void radioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            drivingMode = "wheel";
+        }
+
         private void onSkeletonEvent(object sender, EventArgs e, double[] data)
         {
             processor = new DataProcessing(data);
 
             bruteWheelRotation = processor.WheelRotation();
             bruteWheelSpeed = processor.WheelSpeed();
-            //bruteAssyRotation = processor.AssyRotation();
-            //bruteAssySpeed = processor.AssySpeed();
+            bruteAssyRotation = processor.AssyRotation();
+            bruteAssySpeed = processor.AssySpeed();
 
-            //assyRotSmoother.updateValue(bruteAssyRotation);
-            //assySpeedSmoother.updateValue(bruteAssySpeed);
+            assyRotSmoother.updateValue(bruteAssyRotation);
+            assySpeedSmoother.updateValue(bruteAssySpeed);
             wheelSpeedSmoother.updateValue(bruteWheelSpeed);
             wheelRotSmoother.updateValue(bruteWheelRotation);
 
             double wheelRotValue = wheelRotSmoother.UpdateExponential();
             double wheelSpeedValue = wheelSpeedSmoother.UpdateExponential();
-            //double assySpeedValue = assySpeedSmoother.UpdateExponential();
-            //double assyRotValue = assyRotSmoother.UpdateExponential();
+            double assySpeedValue = assySpeedSmoother.UpdateExponential();
+            double assyRotValue = assyRotSmoother.UpdateExponential();
 
-            wheelSpeedValue = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
-            wheelSpeedValue = (wheelSpeedValue * 2 - 100)/100 ;
-            wheelRotValue = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
-            wheelRotValue = -(wheelRotValue * 2 - 100)/250;
+            switch (drivingMode)
+            {
+                case "assy":
+                    assySpeedValue = processor.ValueToPourcentage("assySpeed", assySpeedValue);
+                    assySpeedValue = (wheelSpeedValue * 2 - 100) / 100;
+                    assyRotValue = processor.ValueToPourcentage("assyRotation", assyRotValue);
+                    assyRotValue = -(wheelRotValue * 2 - 100) / 250;
+                    robot.directionAngle += assyRotValue;
+                    robot.speed = assySpeedValue * 10;
 
-            robot.directionAngle += wheelRotValue;
-            robot.speed = wheelSpeedValue*20;
+                    break;
+                case "wheel":
+                    wheelSpeedValue = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
+                    wheelSpeedValue = (wheelSpeedValue * 2 - 100) / 100;
+                    wheelRotValue = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
+                    wheelRotValue = -(wheelRotValue * 2 - 100) / 250;
+                    robot.directionAngle += wheelRotValue;
+                    robot.speed = wheelSpeedValue * 20;
+                    break;
+            }
            // Console.WriteLine(wheelSpeedValue);
             robot.update();
             MainCanvas.Children.Clear();

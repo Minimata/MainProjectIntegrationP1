@@ -9,20 +9,22 @@
       Title="SimulatorPage">
 
     <Grid>
-        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="720" VerticalAlignment="Top" Width="1280" Panel.ZIndex="0"/>
-        
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="720" VerticalAlignment="Top" Width="1280" Panel.ZIndex="10" Margin="0,-20,0,-400"/>
 
-        <Grid Grid.Row="0">
+
+        <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
+
+                <ColumnDefinition Width="1*">
+                </ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Image  x:Name="ImageVideo" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100"  RenderTransformOrigin="0.443,0.182" />
+            <RadioButton Panel.ZIndex="10" x:Name="radioButton" Content="Volant" HorizontalAlignment="Left" Margin="137,29,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.098,0.422" FontSize="30" GroupName="drivingMode" Checked="radioButton_Checked" IsChecked="True" Grid.Column="1"/>
+            <RadioButton Panel.ZIndex="10" x:Name="radioButton2" Content="Assymétrique (à venir)" HorizontalAlignment="Left" Margin="137,109,0,0" VerticalAlignment="Top" GroupName="drivingMode" FontSize="30" Grid.Column="1" IsEnabled="False"/>
             <Button x:Name="btnReturn" Grid.Row="0" Grid.Column="1" Content="Retour" Background="#52318F" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnReturn_Click"/>
         </Grid>
-        <Grid Grid.Row="1">
-           
-        </Grid>
+
     </Grid>
 
 </Page>
