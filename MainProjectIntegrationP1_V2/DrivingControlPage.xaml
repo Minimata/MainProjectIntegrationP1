@@ -48,12 +48,12 @@
                 <TextBlock x:Name="lblConsole" Foreground="#FF7380FF" />
             </ScrollViewer>
             <Label x:Name="lblPlayerName" Content="Player name" Margin="15,0,5,0" VerticalAlignment="Top" Height="77" Width="377" RenderTransformOrigin="0.501,0.15" Foreground="#FF52318F" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
-            <RadioButton x:Name="radioButton" Content="Volant" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.098,0.422" Height="15" Width="112" GroupName="drivingMode" IsChecked="True" Checked="radioButton_Checked"/>
-            <RadioButton x:Name="radioButton2" Content="Assymétrique" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Checked="radioButton2_Checked" GroupName="drivingMode"/>
-            <Button x:Name="decoBtn" Foreground="#FF8C02FF" Content="Deco" Grid.Row="3" Click="button_Click_1" Margin="10" FontSize="64" FontWeight="Bold"/>
+            <RadioButton Panel.ZIndex="10" x:Name="radioButton" Content="Volant" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.098,0.422" Height="15" Width="112" GroupName="drivingMode" Checked="radioButton_Checked" IsChecked="True"/>
+            <RadioButton Panel.ZIndex="10" x:Name="radioButton2" Content="Assymétrique" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" GroupName="drivingMode" Checked="radioButton2_Checked" />
+            <Button x:Name="decoBtn" Foreground="#FF8C02FF" Content="Deco" Grid.Row="3" Click="button_Click_deco" Margin="10" FontSize="64" FontWeight="Bold"/>
             <Label x:Name="label" HorizontalContentAlignment="Center" Content="Méthode de conduite" Margin="0,100,0,63" Width="183" Foreground="#FF0A90FF" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left"/>
             <Label x:Name="label_Copy1" HorizontalContentAlignment="Center" Content="Options console" Margin="0,100,0,63" Width="137" Foreground="#FF0A90FF" FontWeight="Bold" FontSize="16" HorizontalAlignment="Right"/>
-            <CheckBox x:Name="checkBox" Content="debug m. conduite" Margin="270,136,10,0" Height="15" VerticalAlignment="Top"/>
+            <CheckBox x:Name="drivingDebugCheckBox" Content="debug cond." Margin="0,136,10,43" HorizontalAlignment="Right" Width="117"/>
         </Grid>
     </Grid>
 </Page>

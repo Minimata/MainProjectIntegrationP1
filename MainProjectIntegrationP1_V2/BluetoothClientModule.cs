@@ -7,8 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace BluetoothZeuGroupeLib
 {
@@ -62,10 +61,19 @@ namespace BluetoothZeuGroupeLib
 
         private int listenAttemps = 0;
         private int sendAttemps = 0;
+        private System.Timers.Timer timer;
+        private String macAddr;
 
         public BluetoothClientModule(String macAddress)
         {
+            init(macAddress);
+            macAddr = macAddress;
+            localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
+            localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+        }
 
+        private void init(String macAddress)
+        {
             isPaired = false;
             isScanDone = false;
             isConnected = false;
@@ -86,8 +94,6 @@ namespace BluetoothZeuGroupeLib
                 Console.WriteLine(e.ToString());
             }
 
-            localComponent.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
-            localComponent.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
         }
 
         /// <summary>
@@ -210,25 +216,25 @@ namespace BluetoothZeuGroupeLib
         public void Listen()
         {
             //Lance l'écoute de flux en async
-            Thread t = new Thread(new ThreadStart(doListen));
-            t.Name = "Listen Thread";
-            t.Start();
+            timer = new System.Timers.Timer();
+            timer.Elapsed += doListen;
+            timer.Start();
         }
 
-        private void doListen()
+
+        private void doListen(object sender, ElapsedEventArgs e)
         {
-            if(isSlave)
+            if (isSlave && !listen)
             {
-                (Bluetoothlistener = new BluetoothListener(BluetoothService.SerialPort)).Start();
+                Bluetoothlistener = new BluetoothListener(BluetoothService.SerialPort);
+                Bluetoothlistener.Start();
                 localClient = Bluetoothlistener.AcceptBluetoothClient();
                 isPaired = true;
             }
 
             listen = true;
 
-            while (listen)
-            {
-                if (localClient != null && localClient.Connected)
+                if (localClient != null && localClient.Connected && !stop)
                 {
                     try
                     {
@@ -245,9 +251,9 @@ namespace BluetoothZeuGroupeLib
                             onReceiveMessage.Invoke(ASCIIEncoding.ASCII.GetString(data));
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        Console.WriteLine(e.ToString());
+                        Console.WriteLine(ex.ToString());
                         listenAttemps++;
                         //Connexion coupé
                         if (onConnectionEnded_Event != null && listenAttemps >= 20)
@@ -256,23 +262,34 @@ namespace BluetoothZeuGroupeLib
                         }
                     }
                 }
-                else if(!localClient.Connected)
+                else if(stop)
+                {
+                    Ns.Close();
+                    closeConnection();
+                }
+                else if (!localClient.Connected)
                 {
                     Console.WriteLine("Connection Terminer ou jamais initié");
                 }
-            }
         }
 
-        public void reconnect()
+        public void reset()
         {
+            if (listen)
+                stop = true;
+            else
+                closeConnection();
 
+            init(macAddr);
         }
 
         public void closeConnection()
         {
             listen = false;
-            localClient.Close();
             stop = true;
+            timer.Stop();
+            localClient.Dispose();
+            localClient.Close();
             //Connexion coupé
             if (onConnectionEnded_Event != null)
             {

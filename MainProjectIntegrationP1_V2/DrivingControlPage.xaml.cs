@@ -46,7 +46,7 @@ namespace MainProjectIntegrationP1
             this.parent = parent;            
             Init();
             Subscribe();
-            //parent.bluetooth.Listen();
+            parent.bluetooth.Listen();
             parent.bluetooth.onReceiveMessage += new BluetoothClientModule.onReceiveMessageDelegate(onMessage);
             parent.bluetooth.onConnectionEnded_Event += new BluetoothClientModule.onConnectionEnded(onConnectionEnded);
             //dispatcherTimer = new DispatcherTimer();
@@ -156,27 +156,35 @@ namespace MainProjectIntegrationP1
             double assySpeedValue = assySpeedSmoother.UpdateExponential();
             double assyRotValue = assyRotSmoother.UpdateExponential();
 
-            //labelWheelSpeed.Content = "Wheel Speed Value : " + Math.Round(wheelSpeedValue);
-            //labelWheelRotation.Content = "Wheel Rotation Value : " + Math.Round(wheelRotValue);
-            //labelAssySpeed.Content = "Assymetric Speed Value : " + Math.Round(assySpeedValue);
-            //labelAssyRotation.Content = "Assymetric Rotation Value : " + Math.Round(assyRotValue);
+            if(drivingDebugCheckBox.IsChecked.Value)
+            {
+                lblConsole.Text += "Wheel Speed Value : " + Math.Round(wheelSpeedValue) + "\n";
+                lblConsole.Text += "Wheel Rotation Value : " + Math.Round(wheelRotValue) + "\n";
+                lblConsole.Text += "Assymetric Speed Value : " + Math.Round(assySpeedValue) + "\n";
+                lblConsole.Text += "Assymetric Rotation Value : " + Math.Round(assyRotValue) + "\n";
+            }
+            
 
             switch(drivingMode)
             {
-                case "wheel":
+                case "assy":
                     speed = processor.ValueToPourcentage("assySpeed", assySpeedValue);
                     rotation = processor.ValueToPourcentage("assyRotation", assyRotValue);
                     updateCompassWidget(assyRotValue);
                     updatePowerBar(speed, assySpeedValue);
                     break;
-                case "assy":
+                case "wheel":
                     speed = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
                     rotation = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
                     updateCompassWidget(wheelRotValue);
                     updatePowerBar(speed, wheelSpeedValue);
                     break;
             }
+
+            lblConsole.Text += drivingMode + "\n";
+
             scroolConsole.ScrollToEnd();
+            lblConsole.Text = lblConsole.Text.ToString().Substring((int)lblConsole.Text.Length / 6);
             //La méthode ValueToPourcentage retourn un Int16 et prend en paramères une string et un double.
             //Exemples d'utilisation de la méthode de transformation des valeurs pour le format de la trame.
         }
@@ -220,6 +228,15 @@ namespace MainProjectIntegrationP1
         private void radioButton2_Checked(object sender, RoutedEventArgs e)
         {
             drivingMode = "assy";
+        }
+
+        private void button_Click_deco(object sender, RoutedEventArgs e)
+        {
+            parent.bluetooth.sendToPairedRobot("99");
+            lblConsole.Text += "99 code sended\n";
+            timer.Stop();
+            parent.bluetooth.reset();
+            parent.Content = new MainPage(parent);
         }
 
         private void updatePowerBar(double rawSpeedValuePourcentage,double rawSpeedValue)

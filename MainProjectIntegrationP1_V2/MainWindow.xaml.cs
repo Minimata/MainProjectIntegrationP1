@@ -29,6 +29,7 @@ namespace MainProjectIntegrationP1
         public KinectSensor sensor;
         public KinectSensorChooser sensorChooser;
         public BluetoothClientModule bluetooth;
+        public String playerName = "ZPlayer";
 
         public MainWindow()
         {
