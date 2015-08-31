@@ -34,7 +34,7 @@
                     <TextBlock x:Name="tbTraining" FontSize="36" Foreground="White" Height="64" Text="Entraînement" Width="217" RenderTransformOrigin="0.165,0.519" />
                 </k:KinectTileButton>
                 <k:KinectTileButton Background="#52318F" Name="btnHighscore"
-        HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Click="btnHighscore_Click">
+        HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Click="btnHighscore_Click" IsEnabled="False">
                     <TextBlock x:Name="tbHighscore" FontSize="36" Foreground="White" Height="64" Text="Tableau des scores" Width="304" />
                 </k:KinectTileButton>
                 <k:KinectTileButton  Background="#52318F" Name="btnExit"  
@@ -42,6 +42,7 @@
                     <TextBlock x:Name="tbExit" FontSize="36" Foreground="White" Height="64" Text="Quitter" Width="126" />
                 </k:KinectTileButton>
                 <TextBlock x:Name="tbkMenu" TextWrapping="Wrap" Text="Menu" Width="207" FontSize="72"/>
+                <TextBlock x:Name="tbkDLC" TextWrapping="Wrap" Text="DLC 99$" Width="207" FontSize="50" Foreground="White" />
             </Canvas>
         </k:KinectRegion>
     </Grid>

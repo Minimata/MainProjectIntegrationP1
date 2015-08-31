@@ -77,6 +77,10 @@ namespace MainProjectIntegrationP1
             Canvas.SetLeft(tbkMenu, this.parent.Width / 2 - tbkMenu.Width / 2);
             Canvas.SetTop(tbkMenu, spaceHeight2 / 2);
 
+            //Set textbloc DLC position
+            Canvas.SetLeft(tbkDLC, spaceWidth + 150);
+            Canvas.SetTop(tbkDLC, spaceHeight1 + buttonHeight + spaceHeight2 + 50);
+
             //init kinect
             this.sensorChooser = parent.sensorChooser;
             this.sensorChooser.KinectChanged += SensorChooserOnKinectChanged2;

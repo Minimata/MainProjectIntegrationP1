@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -14,6 +15,7 @@ namespace MainProjectIntegrationP1
         public double x { get; set; }
         public double y { get; set; }
 
+        RotateTransform rotation = new RotateTransform();
         Rectangle shape;
 
         public double directionAngle { get; set; }
@@ -24,12 +26,13 @@ namespace MainProjectIntegrationP1
             shape = new Rectangle();
             shape.Stroke = new SolidColorBrush(Colors.Black);
             shape.Fill = new SolidColorBrush(Colors.Black);
-            shape.Width = 10;
-            shape.Height = 30;
-            x = 300;
-            y = 100;
-            speed = 0;
+            shape.Width = 50;
+            shape.Height = 10;
+            x = 400;
+            y = 200;
+            speed = 1;
             directionAngle = 0;
+            shape.RenderTransformOrigin = new Point(0.5, 0.5);
         }
 
         public void update()
@@ -37,12 +40,14 @@ namespace MainProjectIntegrationP1
             //Calcul avec nombre complexes
             x += speed * Math.Cos(directionAngle);
             y += speed * Math.Sin(directionAngle);
+            rotation.Angle = directionAngle * 180.0 / Math.PI;
+            shape.RenderTransform = rotation;
         }
 
         public void draw(Canvas canvas)
         {
-            Canvas.SetLeft(shape, x);
             Canvas.SetTop(shape, y);
+            Canvas.SetLeft(shape, x);
             canvas.Children.Add(shape);
         }
     }

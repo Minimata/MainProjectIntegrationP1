@@ -8,13 +8,21 @@
       d:DesignHeight="300" d:DesignWidth="1280"
       Title="SimulatorPage">
 
-    <StackPanel Margin="10">
+    <Grid>
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="720" VerticalAlignment="Top" Width="1280" Panel.ZIndex="0"/>
+        
 
-        <Canvas x:Name="buttonCanvas" HorizontalAlignment="Right" VerticalAlignment="Top" Width="320" Height="480">
-            <Button x:Name="btnReturn" Content="Retour" Background="#52318F" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Canvas>
-        <Image  x:Name="ImageVideo" HorizontalAlignment="Stretch" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100" />
-        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="720" VerticalAlignment="Top" Width="1280"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Image  x:Name="ImageVideo" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Height="480" VerticalAlignment="Top" Width="640" Panel.ZIndex="-100"  RenderTransformOrigin="0.443,0.182" />
+            <Button x:Name="btnReturn" Grid.Row="0" Grid.Column="1" Content="Retour" Background="#52318F" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnReturn_Click"/>
+        </Grid>
+        <Grid Grid.Row="1">
+           
+        </Grid>
+    </Grid>
 
-    </StackPanel>
 </Page>

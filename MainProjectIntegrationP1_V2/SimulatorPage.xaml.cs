@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Controls;
@@ -26,13 +27,14 @@ namespace MainProjectIntegrationP1
     {
         VisualDevice kinect;
         double bruteWheelSpeed, bruteWheelRotation;
-        double bruteAssySpeed, bruteAssyRotation;
+        //double bruteAssySpeed, bruteAssyRotation;
         DataProcessing processor;
         RobotSimulator robot;
         MainWindow parent;
+        
 
-        DataSmoother assyRotSmoother;
-        DataSmoother assySpeedSmoother;
+        //DataSmoother assyRotSmoother;
+        //DataSmoother assySpeedSmoother;
         DataSmoother wheelSpeedSmoother;
         DataSmoother wheelRotSmoother;
 
@@ -45,8 +47,8 @@ namespace MainProjectIntegrationP1
             // Init button
             double buttonWidth = this.parent.Width / 4;
             double buttonHeight = this.parent.Height / 4;
-            buttonCanvas.Width = buttonWidth;
-            buttonCanvas.Height = buttonHeight;
+            btnReturn.Width = buttonWidth;
+            btnReturn.Height = buttonHeight;
 
             Init();
             Subscribe();
@@ -54,8 +56,8 @@ namespace MainProjectIntegrationP1
 
         public void Init()
         {
-            assyRotSmoother = new DataSmoother();
-            assySpeedSmoother = new DataSmoother();
+            //assyRotSmoother = new DataSmoother();
+            //assySpeedSmoother = new DataSmoother();
             wheelSpeedSmoother = new DataSmoother();
             wheelRotSmoother = new DataSmoother();
 
@@ -68,6 +70,12 @@ namespace MainProjectIntegrationP1
         {
             kinect.onColorFrameReady += new VisualDevice.VideoFrameReadyEventHandler(onColorFrameReadyEvent);
             kinect.onSkeletonFrameReady += new VisualDevice.SkeletonFrameReadyEventHandler(onSkeletonEvent);
+        }
+
+        private void btnReturn_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage returnMain = new MainPage(this.parent);
+            parent.Content = returnMain;
         }
 
         private void onColorFrameReadyEvent(object sender, EventArgs e, ImageSource bSource)
@@ -94,8 +102,14 @@ namespace MainProjectIntegrationP1
             //double assySpeedValue = assySpeedSmoother.UpdateExponential();
             //double assyRotValue = assyRotSmoother.UpdateExponential();
 
+            wheelSpeedValue = processor.ValueToPourcentage("wheelSpeed", wheelSpeedValue);
+            wheelSpeedValue = (wheelSpeedValue * 2 - 100)/100 ;
+            wheelRotValue = processor.ValueToPourcentage("wheelRotation", wheelRotValue);
+            wheelRotValue = -(wheelRotValue * 2 - 100)/250;
+
             robot.directionAngle += wheelRotValue;
-            robot.speed = wheelSpeedValue;
+            robot.speed = wheelSpeedValue*20;
+           // Console.WriteLine(wheelSpeedValue);
             robot.update();
             MainCanvas.Children.Clear();
             robot.draw(MainCanvas);
