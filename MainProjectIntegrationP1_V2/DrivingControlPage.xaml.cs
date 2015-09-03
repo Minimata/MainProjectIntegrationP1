@@ -62,7 +62,7 @@ namespace MainProjectIntegrationP1
         {
             if(cause.Equals("cut"))
             {
-                MessageBox.Show("Connection coupé !");
+                //MessageBox.Show("Connection coupé !");
                 //Retenter une connexion...
             }
             else
@@ -123,6 +123,7 @@ namespace MainProjectIntegrationP1
                 startBtn.Content = "STOP";
                 lblConsole.Text += "77 code sended\n";
                 timer.Start();
+                parent.bluetooth.timer.Start();
             }
             else if (started == false)
             {
@@ -130,6 +131,7 @@ namespace MainProjectIntegrationP1
                 startBtn.Content = "START";
                 lblConsole.Text += "99 code sended\n";
                 timer.Stop();
+                parent.bluetooth.timer.Stop();
             }
 
             lblConsole.Text += "Button start / stop clicked \n";
@@ -232,10 +234,7 @@ namespace MainProjectIntegrationP1
         private void button_Click_deco(object sender, RoutedEventArgs e)
         {
             parent.bluetooth.sendToPairedRobot("99");
-            lblConsole.Text += "99 code sended\n";
-            timer.Stop();
-            parent.bluetooth.reset();
-            parent.Content = new MainPage(parent);
+            Environment.Exit(0);
         }
 
         private void updatePowerBar(double rawSpeedValuePourcentage,double rawSpeedValue)

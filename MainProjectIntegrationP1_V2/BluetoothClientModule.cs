@@ -61,7 +61,7 @@ namespace BluetoothZeuGroupeLib
 
         private int listenAttemps = 0;
         private int sendAttemps = 0;
-        private System.Timers.Timer timer;
+        public System.Timers.Timer timer;
         private String macAddr;
 
         public BluetoothClientModule(String macAddress)
