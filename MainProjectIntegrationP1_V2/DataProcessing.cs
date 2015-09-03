@@ -86,6 +86,7 @@ namespace MainProjectIntegrationP1
             {
                 angle = Math.Atan(DeltaY / DeltaX);
                 angle = (angle / (Math.PI * 2)) * 360; //Convert Radian to Degrees
+                angle = NeutralBand(angle, 3);
             }
             else
             {

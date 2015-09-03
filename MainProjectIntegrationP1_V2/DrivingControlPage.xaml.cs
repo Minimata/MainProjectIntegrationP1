@@ -84,7 +84,7 @@ namespace MainProjectIntegrationP1
 
         public void armTimer()
         {
-            timer = new Timer(210);
+            timer = new Timer(100);
             timer.Elapsed += sysTimerTick;
         }
 
